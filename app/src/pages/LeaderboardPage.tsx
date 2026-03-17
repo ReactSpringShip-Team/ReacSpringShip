@@ -2,16 +2,16 @@ import { useState } from "react"
 import { GlobalScore } from "../features/leaderboard/components/GlobalScore";
 import { UserScore } from "../features/leaderboard/components/UserScore";
 
-type tab = 'global' | 'user'
-
+type tab = 'global' | 'user';
+// Entender min-h-screen, backdrop-blur-md, w-full, max-w-2xl, drop-shadow, transition-all, 
 
 export const LeaderboardPage = () => {
   const [activeTab, setActiveTab] = useState<tab>('global');
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#051124] font-sans text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#051124] font-sans text-white select-none">
       {/* Main container with Neon effect*/}
-      <div className= "w-full max-w-2xl p-8 rounded-2xl border border-cyan-500/50 bg-blue-900/20 backdrop-blur-md shadow-[0_0_20px_rgba(8,145,178,0.3)]">
+      <div className= "w-full max-w-2xl p-8 rounded-2xl border border-cyan-500/50 bg-blue-900/20 backdrop-blur-md drop-shadow-[0_0_20px_rgba(8,145,178,0.3)]">
         <h1 className="text-5xl font-black text-center text-white italic tracking-tighter uppercase drop-shadow-[0_0_10px_#fff] mb-8">
           top score
         </h1>
