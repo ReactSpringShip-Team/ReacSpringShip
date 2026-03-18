@@ -19,13 +19,13 @@ export const LeaderboardPage = () => {
         <div className="flex justify-center gap-4 mb-6">  
             <button 
             onClick={() => setActiveTab('user')} 
-            className={`px-6 py-1 rounded-sm border-b-2 transition-all italic font-bold uppercase tracking-wider
+            className={`px-6 py-1 rounded-sm border-b-2 transition-all italic font-bold uppercase tracking-wider cursor-pointer
               ${activeTab === 'user' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
           >
             My scores
           </button>
           <button
-          className={`px-6 py-1 rounded-sm border-b-2 italic uppercase transition-all tracking-wider font-bold
+          className={`px-6 py-1 rounded-sm border-b-2 italic uppercase transition-all tracking-wider font-bold cursor-pointer
             ${activeTab === 'global' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'}
             `}
           onClick={ ()=> setActiveTab('global')}>Global Scores</button>
