@@ -20,7 +20,7 @@ export const AuthPage = () => {
         onClick={()=> setView('register')}>Register</button>
       </div>
 
-      <div className="w-full flex justify-center">
+      <div className="w-full max-2xl flex justify-center items-start min-h-125">
         { view === 'login' ? <LoginForm/> : <RegisterForm/>}
       </div>
     </div>
