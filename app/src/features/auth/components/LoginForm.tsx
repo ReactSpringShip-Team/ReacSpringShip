@@ -16,7 +16,7 @@ export const LoginForm = () => {
 
             <Input type="password" placeHolder="Password"/>
 
-            <Button text="Login"/>
+            <Button text="Login" btnType="submit"/>
 
             <p 
             className="text-sm mt-5">Dont have an account?
