@@ -12,19 +12,19 @@ export const HomePage = () => {
   if (!isLogin){
     return (
       <> 
-          <Button text="Login" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'login' }}) }/>
-          <Button text="Signup" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'register' }}) }/>
+          <Button text="Login" textSize="text-lg" color="pink" onClick={ ()=> navigate('/auth', {state: { view: 'login' }}) }/>
+          <Button text="Signup" textSize="text-lg" color="purple" onClick={ ()=> navigate('/auth', {state: { view: 'register' }}) }/>
       </>
     );
   }
 
   return (
-    <Button text="User" textSize="md" onClick={ ()=> navigate('/leaderboard', {state: { activeTab: 'user' }}) }/>  
+    <Button text="User" textSize="text-lg" onClick={ ()=> navigate('/leaderboard', {state: { activeTab: 'user' }}) }/>  
   )
 }
  
   return (
-    <div className="min-h-screen bg-[#051124] flex flex-col text-white p-8">
+    <div className="min-h-screen bg-[#051124] flex flex-col text-white p-8 ">
       
       <header className="w-full flex justify-between items-start">
         <button className="text-cyan-500 hover:text-cyan-300 transition-colors cursor-pointer"
@@ -37,9 +37,6 @@ export const HomePage = () => {
           {isLogged()}
       </div>
 
-     
-
-
       </header>
 
       <main className="flex flex-col flex-1 justify-center items-center gap-16">
@@ -49,9 +46,9 @@ export const HomePage = () => {
         </h1>
 
         <div className="flex flex-col items-center gap-6 w-full max-w-xs">
-          <Button text="Single-player" onClick={()=> navigate('/single-player')}/>
-          <Button text="Multi-player" color="purple" onClick={()=> navigate('/multi-player')}/>
-          <Button text="Leaderboard" color="blue" onClick={()=> navigate('/leaderboard')}/>
+          <Button text="Single-player" textSize="text-xl" color="yellow" onClick={()=> navigate('/single-player')}/>
+          <Button text="Multi-player" textSize="text-xl" color="green" onClick={()=> navigate('/multi-player')}/>
+          <Button text="Leaderboard" textSize="text-xl" color="red" onClick={()=> navigate('/leaderboard')}/>
         </div>
 
       </main>
