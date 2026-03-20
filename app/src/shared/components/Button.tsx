@@ -6,6 +6,7 @@ interface Props{
     onClick?: ()=> void;
     btnType?: 'submit' | 'button';
     color?: ColorType;
+    textSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
 }
 
 const colors: Record<ColorType, string> = {
@@ -15,12 +16,12 @@ const colors: Record<ColorType, string> = {
     purple: 'border-purple-500 text-purple-500 shadow-[0_0_15px_#a855f7] hover:bg-purple-500/20 hover:shadow-[0_0_25px_#a855f7]',
 };
 
-export const Button = ({text, onClick, btnType = 'button', color = 'purple'} : Props) => {
+export const Button = ({text, onClick, btnType = 'button', color = 'purple', textSize = "xl"} : Props) => {
     return (
         <button 
                 type={btnType}
                 onClick={onClick}
-                className={`font-sans text-xl border-2 rounded-xl px-4 py-3 transition-all duration-300 cursor-pointer uppercase tracking-wider font-black italic w-full max-w-sm ${colors[color]}`}
+                className={`font-sans ${textSize} border-2 rounded-xl px-4 py-3 transition-all duration-300 cursor-pointer uppercase tracking-wider font-black italic w-full max-w-sm ${colors[color]}`}
             >
                 {text}
         </button>
