@@ -2,11 +2,16 @@ import { useState } from "react";
 import { LoginForm } from "../features/auth/components/LoginForm"
 import { RegisterForm } from "../features/auth/components/RegisterForm";
 import { BackButton } from "../shared/components/BackButton";
+import { useLocation } from "react-router-dom";
 
 type formView = 'login' | 'register';
 
 export const AuthPage = () => {
-  const [view, setView] = useState<formView>('login');
+  
+  const location = useLocation();
+  const initialView = location.state?.view || 'login';
+
+  const [view, setView] = useState<formView>(initialView);
 
   return (
     <div className="relative min-h-screen bg-[#051124] flex flex-col items-center justify-center">

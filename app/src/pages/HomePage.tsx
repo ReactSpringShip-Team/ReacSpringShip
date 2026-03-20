@@ -17,8 +17,8 @@ export const HomePage = () => {
         </button>
 
         <div className="flex gap-4"> 
-          <Button text="Login" textSize="sm"/>
-          <Button text="Signup" textSize="sm"/>
+          <Button text="Login" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'login' }}) }/>
+          <Button text="Signup" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'register' }}) }/>
         </div>
       </header>
 
