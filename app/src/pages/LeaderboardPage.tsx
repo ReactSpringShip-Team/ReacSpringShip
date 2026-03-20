@@ -2,12 +2,15 @@ import { useState } from "react"
 import { GlobalScore } from "../features/leaderboard/components/GlobalScore";
 import { UserScore } from "../features/leaderboard/components/UserScore";
 import { BackButton } from "../shared/components/BackButton";
+import { useLocation } from "react-router-dom";
 
 type tab = 'global' | 'user';
-// Entender min-h-screen, backdrop-blur-md, w-full, max-w-2xl, drop-shadow, transition-all, 
 
 export const LeaderboardPage = () => {
-  const [activeTab, setActiveTab] = useState<tab>('global');
+
+  const location = useLocation();
+  const initialView = location.state?.activeTab || 'global';
+  const [activeTab, setActiveTab] = useState<tab>(initialView);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-[#051124] font-sans text-white select-none">

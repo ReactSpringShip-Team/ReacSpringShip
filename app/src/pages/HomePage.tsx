@@ -2,10 +2,27 @@ import { Settings } from "lucide-react"
 import { Button } from "../shared/components/Button"
 import { useNavigate } from "react-router-dom"
 
+const isLogin = false; // <-- Change this to use a variable with the useContext
+
 export const HomePage = () => {
 
   const navigate = useNavigate();
 
+  const isLogged = () => {
+  if (!isLogin){
+    return (
+      <> 
+          <Button text="Login" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'login' }}) }/>
+          <Button text="Signup" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'register' }}) }/>
+      </>
+    );
+  }
+
+  return (
+    <Button text="User" textSize="md" onClick={ ()=> navigate('/leaderboard', {state: { activeTab: 'user' }}) }/>  
+  )
+}
+ 
   return (
     <div className="min-h-screen bg-[#051124] flex flex-col text-white p-8">
       
@@ -16,10 +33,13 @@ export const HomePage = () => {
           <Settings size={36} className="drop-shadow-[0_0_8px_#22d3ee]"/>
         </button>
 
-        <div className="flex gap-4"> 
-          <Button text="Login" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'login' }}) }/>
-          <Button text="Signup" textSize="sm" onClick={ ()=> navigate('/auth', {state: { view: 'register' }}) }/>
-        </div>
+      <div className="flex gap-4"> 
+          {isLogged()}
+      </div>
+
+     
+
+
       </header>
 
       <main className="flex flex-col flex-1 justify-center items-center gap-16">
