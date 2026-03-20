@@ -59,8 +59,22 @@ export const HomePage = () => {
       <footer className="flex flex-col items-center gap-3 text-slate-400">
         <h5 className="uppercase tracking-widest text-sm font-bold text-slate-500">Credits</h5>
         <div className="flex gap-8 font-mono text-sm">
-          <p className="hover:text-cyan-400 transition-colors cursor-pointer">Carlos - Frontend dev</p>
-          <p className="hover:text-cyan-400 transition-colors cursor-pointer">Einar - Backend dev</p>
+          <a 
+            href="https://github.com/CarlosGitUser" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hover:text-cyan-400 transition-colors cursor-pointer"
+          >
+            Carlos - Frontend dev
+          </a>
+          <a 
+            href="https://github.com/Einar115" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hover:text-cyan-400 transition-colors cursor-pointer"
+          >
+            Einar - Backend dev
+          </a>
         </div>
       </footer>
       
