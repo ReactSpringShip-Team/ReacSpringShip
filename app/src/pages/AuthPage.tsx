@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Added for navigation
-import { ChevronLeft } from "lucide-react"; // Added for the icon
 import { LoginForm } from "../features/auth/components/LoginForm"
 import { RegisterForm } from "../features/auth/components/RegisterForm";
+import { BackButton } from "../shared/components/BackButton";
 
 type formView = 'login' | 'register';
 
@@ -12,18 +11,7 @@ export const AuthPage = () => {
   return (
     <div className="relative min-h-screen bg-[#051124] flex flex-col items-center justify-center">
 
-      <Link 
-        to="/"
-        className="absolute top-12 left-12 z-10 flex items-center gap-2 text-cyan-500 hover:text-cyan-300 transition-all duration-300 group cursor-pointer"
-      >
-        <ChevronLeft 
-          size={36} 
-          className="drop-shadow-[0_0_5px_#22d3ee] group-hover:drop-shadow-[0_0_15px_#67e8f9] transition-all duration-300" 
-        />
-        <span className="text-xl italic font-black uppercase tracking-widest drop-shadow-[0_0_5px_#22d3ee] group-hover:drop-shadow-[0_0_15px_#67e8f9] transition-all duration-300">
-          Back
-        </span>
-      </Link>
+     <BackButton/>
 
       {/* TABS */}
       <div className="flex gap-8 items-center text-white mb-6">
