@@ -1,15 +1,16 @@
-// Username, email, password, confirm password
-
-import { Link } from "react-router-dom";
 import { Button } from "../../../shared/components/Button";
 import { Input } from "../../../shared/components/Input";
+
+interface Props {
+  setView: (view : 'login' | 'register') => void;
+}
 
 const submitRegister = (e: React.FormEvent) => {
   e.preventDefault();
   console.log('register');
 }
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ setView} : Props)  => {
   return (
     <div className="w-full max-w-2xl select-none bg-blue-900/20 border-2 rounded-2xl backdrop-blur-md border-cyan-400 py-8 shadow-[0_0_20px_#22d3ee] ">
       <form 
@@ -27,12 +28,15 @@ export const RegisterForm = () => {
         <Input type="password" color="pink" placeHolder="Confirm password"/>
 
         <Button text="Register" btnType="submit"/>
-
-        <p className="text-sm mt-5">Do you have an account? 
-            <strong>
-              <Link to="/register" className="cursor-pointer hover:text-gray-400 pl-2">Login here</Link>
-            </strong>
-        </p>
+        <p 
+            className="text-sm mt-5">Do you have an account?
+            <span 
+                onClick={() => setView('login')} 
+                className="cursor-pointer font-bold text-white hover:text-cyan-400 pl-2 transition-colors"
+              >
+                Login here
+              </span>
+            </p>
       </form>
     </div>
   )
