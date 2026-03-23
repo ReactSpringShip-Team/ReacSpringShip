@@ -46,9 +46,9 @@ export const HomePage = () => {
         </h1>
 
         <div className="flex flex-col items-center gap-6 w-full max-w-xs">
-          <Button text="Single-player" textSize="text-xl" color="yellow" onClick={()=> navigate('/single-player')}/>
-          <Button text="Multi-player" textSize="text-xl" color="green" onClick={()=> navigate('/multi-player')}/>
-          <Button text="Leaderboard" textSize="text-xl" color="red" onClick={()=> navigate('/leaderboard')}/>
+          <Button text="Single-player" textSize="text-xl" color="green" onClick={()=> navigate('/single-player')}/>
+          <Button text="Multi-player" textSize="text-xl" color="yellow" onClick={()=> navigate('/multi-player')}/>
+          <Button text="Leaderboard" textSize="text-xl" color="blue" onClick={()=> navigate('/leaderboard')}/>
         </div>
 
       </main>
