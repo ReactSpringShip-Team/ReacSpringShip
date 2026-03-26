@@ -1,6 +1,41 @@
+import { useState } from "react";
+
+import type { viewTab } from "../features/multi-player/types/view.type";
+
+import { MultiplayerMenu } from "../features/multi-player/components/MultiplayerMenu";
+import { Lobby } from "../features/multi-player/components/Lobby";
+import { MultiplayerCanvas } from "../features/multi-player/components/MultiplayerCanvas";
+
+import { BackButton } from "../shared/components/BackButton";
+
+
 
 export const MultiPlayerPage = () => {
+
+  const [view, setView] = useState<viewTab>('menu');
+
+  const conditionalRender = () => {
+    if(view === 'playing'){
+      return <MultiplayerCanvas />
+    }else
+    if(view === 'menu'){
+      return <>
+              <BackButton/>
+              <MultiplayerMenu onJoinRoom={setView}/>
+            </>
+    }else if(view === 'lobby'){
+      return <>
+              <BackButton/>
+              <Lobby />
+             </>
+    }
+  }
+
   return (
-    <div>MultiPlayerPage</div>
+    <div className={`min-h-screen bg-[#051124] flex flex-col text-white relative ${
+          view === 'playing' ? 'pt-4' : 'p-8 justify-center'
+        }`}>
+          { conditionalRender() }
+        </div>
   )
 }

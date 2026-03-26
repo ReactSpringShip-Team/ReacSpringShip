@@ -21,7 +21,6 @@ export const SinglePlayerPage = () => {
 
       <div id="canvas" className="flex-1 bg-gray-500 w-full "></div>
 
-
       {/* === Modals ===*/}
       {
         showPauseMenu && createPortal(
