@@ -15,6 +15,8 @@ const inputColors: Record<ColorType, string> = {
     blue: 'border-cyan-400 shadow-[0_0_15px_#22d3ee] focus:shadow-[0_0_25px_#22d3ee]',
     yellow: 'border-yellow-400 shadow-[0_0_15px_#facc15] focus:shadow-[0_0_25px_#facc15]',
     purple: 'border-purple-500 shadow-[0_0_15px_#a855f7] focus:shadow-[0_0_25px_#a855f7]',
+    red: 'border-red-500 shadow-[0_0_15px_#ef4444] focus:shadow-[0_0_25px_#ef4444]',
+    green: 'border-green-500 shadow-[0_0_15px_#22c55e] focus:shadow-[0_0_25px_#22c55e]',
 };
 
 export const Input = ({ 

@@ -6,6 +6,7 @@ interface Props {
     btnType?: 'submit' | 'button';
     color?: ColorType;
     textSize?: 'text-sm' | 'text-base' | 'text-lg' | 'text-xl' | 'text-2xl' | 'text-3xl' | 'text-4xl' | 'text-5xl';
+    disabled?: boolean;
 }
 
 const colors: Record<ColorType, string> = {
@@ -22,13 +23,15 @@ export const Button = ({
     onClick, 
     btnType = 'button', 
     color = 'purple', 
-    textSize = "text-xl"
+    textSize = "text-xl",
+    disabled = false
 }: Props) => {
     return (
         <button 
             type={btnType}
             onClick={onClick}
-            className={`font-sans ${textSize} border-2 rounded-xl px-4 py-3 transition-all duration-300 cursor-pointer uppercase tracking-wider font-black italic w-full max-w-sm ${colors[color]}`}
+            className={`font-sans ${textSize} border-2 rounded-xl px-4 py-3 transition-all duration-300 cursor-pointer uppercase tracking-wider font-black italic w-full max-w-sm ${colors[color]} disabled:bg-gray-300 disabled:opacity-50`}
+            disabled={disabled}
         >
             {text}
         </button>

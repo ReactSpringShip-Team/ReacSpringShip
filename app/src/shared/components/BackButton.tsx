@@ -23,6 +23,14 @@ const buttonStyles: Record<ColorType, { text: string; glow: string }> = {
     purple: {
         text: "text-purple-500 hover:text-purple-300",
         glow: "drop-shadow-[0_0_5px_#a855f7] group-hover:drop-shadow-[0_0_15px_#d8b4fe]"
+    },
+    red: {
+      text: "text-red-500 hover:text-red-300",
+      glow: "drop-shadow-[0_0_5px_#ef4444] group-hover:drop-shadow-[0_0_15px_#fca5a5]"
+    },
+    green: {
+      text: "text-green-500 hover:text-green-300",
+      glow: "drop-shadow-[0_0_5px_#22c55e] group-hover:drop-shadow-[0_0_15px_#86efac]"
     }
 };
 
