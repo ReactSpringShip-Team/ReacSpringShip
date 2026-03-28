@@ -10,22 +10,22 @@ import java.util.UUID;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    public UUID id;
+    private UUID id;
 
     @Column(unique = true, nullable = false)
-    public String username;
+    private String username;
 
     @Column(name = "password_hash", nullable = false)
-    public String password;
+    private String password;
 
     @Column(unique = true, nullable = false)
-    public String email;
+    private String email;
 
     @Column(name = "created_at")
-    public LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "enabled")
-    public Boolean enabled = true; //sujeto a cambios para la verificacion de email
+    private Boolean enabled = true; //sujeto a cambios para la verificacion de email
 
     public UserEntity(UUID id, String username, String password, String email, LocalDateTime createdAt) {
         this.id = id;
