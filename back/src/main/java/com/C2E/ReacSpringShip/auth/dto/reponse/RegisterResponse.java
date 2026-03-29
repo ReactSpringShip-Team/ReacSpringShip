@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Register user response")
 public record RegisterResponse(
-        @Schema(description = "Confirm if the registration was successful")
+        @Schema(description = "Confirm if the registration was successful", example = "true")
         boolean success,
-        @Schema(description = "Message indicating the action")
+        @Schema(description = "Message indicating the action", example = "Register success.")
         String message
 ) {
 }
