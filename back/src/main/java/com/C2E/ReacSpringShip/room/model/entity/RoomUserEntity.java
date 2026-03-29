@@ -1,10 +1,12 @@
 package com.C2E.ReacSpringShip.room.model.entity;
 
+import com.C2E.ReacSpringShip.game.model.entity.PlayerResultEntity;
 import com.C2E.ReacSpringShip.room.model.enumeration.RoleEnum;
 import com.C2E.ReacSpringShip.user.entity.UserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,6 +15,7 @@ public class RoomUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "player_id")
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,6 +40,9 @@ public class RoomUserEntity {
 
     @Column(name = "is_connected")
     private boolean isConected;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<PlayerResultEntity> playerResults;
 
     public RoomUserEntity(RoomEntity room, UserEntity user, UUID guestId, String nickname, RoleEnum role, LocalDateTime joinedAt, boolean isConected) {
         this.room = room;
