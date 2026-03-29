@@ -3,11 +3,17 @@ package com.C2E.ReacSpringShip.game.model.entity;
 import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "player_results")
 public class PlayerResultEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "result_id")
+    private UUID id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_id")
     private GameSessionEntity session;
@@ -25,6 +31,9 @@ public class PlayerResultEntity {
         this.user = user;
         this.score = score;
         this.placement = placement;
+    }
+
+    public PlayerResultEntity() {
     }
 
     public GameSessionEntity getSession() {
