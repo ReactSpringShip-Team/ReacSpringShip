@@ -41,7 +41,7 @@ public class RoomUserEntity {
     @Column(name = "is_connected")
     private boolean isConected;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PlayerResultEntity> playerResults;
 
     public RoomUserEntity(RoomEntity room, UserEntity user, UUID guestId, String nickname, RoleEnum role, LocalDateTime joinedAt, boolean isConected) {
