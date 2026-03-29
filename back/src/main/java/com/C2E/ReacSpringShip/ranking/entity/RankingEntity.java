@@ -11,6 +11,7 @@ import java.util.UUID;
 public class RankingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ranking_id")
     private UUID id;
 
     @OneToOne

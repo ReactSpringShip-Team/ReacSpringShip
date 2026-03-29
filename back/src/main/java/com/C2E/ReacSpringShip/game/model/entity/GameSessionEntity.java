@@ -12,6 +12,7 @@ import java.util.UUID;
 public class GameSessionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "session_id")
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)

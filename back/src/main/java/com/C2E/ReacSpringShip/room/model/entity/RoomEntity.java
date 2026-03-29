@@ -13,6 +13,7 @@ import java.util.UUID;
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "room_id")
     private UUID id;
 
     private String code;
