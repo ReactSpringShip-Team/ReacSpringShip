@@ -11,8 +11,8 @@ spring:
 
   jpa:
     hibernate:
-    ddl-auto: create-drop
-    show-sql: true
+      ddl-auto: create-drop
+      show-sql: true
 
   security:
     oauth2:
@@ -23,6 +23,13 @@ spring:
 jwt:
   expiration: 86400000
   issuer: "http://localhost:8080"
+
+springdoc:
+  api-docs:
+    enabled: true
+
+  swagger-ui:
+    enabled: true
 
 logging:
   level:
