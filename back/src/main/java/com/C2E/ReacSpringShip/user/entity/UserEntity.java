@@ -1,8 +1,11 @@
 package com.C2E.ReacSpringShip.user.entity;
 
+import com.C2E.ReacSpringShip.room.model.entity.RoomEntity;
+import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +29,12 @@ public class UserEntity {
 
     @Column(name = "enabled")
     private Boolean enabled = true; //sujeto a cambios para la verificacion de email
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    public List<RoomEntity> rooms;
+
+    @OneToMany(mappedBy = "user", fetch =  FetchType.LAZY)
+    public List<RoomUserEntity>  roomUsers;
 
     public UserEntity(UUID id, String username, String password, String email, LocalDateTime createdAt) {
         this.id = id;
