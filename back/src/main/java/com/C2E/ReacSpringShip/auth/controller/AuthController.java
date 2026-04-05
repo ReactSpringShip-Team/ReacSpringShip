@@ -39,7 +39,7 @@ public class AuthController {
 
     @Operation(summary = "Get a guest token with a nickname")
     @ApiResponse(responseCode = "200", description = "Guest token successfully obtained")
-    @PostMapping("/guest")
+    @GetMapping("/guest")
     public ResponseEntity<AuthResponse> guest(@RequestParam String nickname) {
         return ResponseEntity.ok(authService.guest(nickname));
     }
