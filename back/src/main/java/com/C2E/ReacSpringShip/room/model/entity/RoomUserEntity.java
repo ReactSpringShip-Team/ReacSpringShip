@@ -26,8 +26,8 @@ public class RoomUserEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @Column(name = "guest_id")
-    private UUID guestId;
+    @Column(name = "guest_token")
+    private UUID guestToken;
 
     private String nickname;
 
@@ -41,13 +41,13 @@ public class RoomUserEntity {
     @Column(name = "is_connected")
     private boolean isConected;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
     private List<PlayerResultEntity> playerResults;
 
-    public RoomUserEntity(RoomEntity room, UserEntity user, UUID guestId, String nickname, RoleEnum role, LocalDateTime joinedAt, boolean isConected) {
+    public RoomUserEntity(RoomEntity room, UserEntity user, UUID guestToken, String nickname, RoleEnum role, LocalDateTime joinedAt, boolean isConected) {
         this.room = room;
         this.user = user;
-        this.guestId = guestId;
+        this.guestToken = guestToken;
         this.nickname = nickname;
         this.role = role;
         this.joinedAt = joinedAt;
@@ -80,12 +80,12 @@ public class RoomUserEntity {
         this.user = user;
     }
 
-    public UUID getGuestId() {
-        return guestId;
+    public UUID getGuestToken() {
+        return guestToken;
     }
 
-    public void setGuestId(UUID guestId) {
-        this.guestId = guestId;
+    public void setGuestToken(UUID guestToken) {
+        this.guestToken = guestToken;
     }
 
     public String getNickname() {
