@@ -1,5 +1,7 @@
 package com.C2E.ReacSpringShip.config.security;
 
+import com.C2E.ReacSpringShip.config.jwt.CustomJwtAuthenticationConverter;
+import com.C2E.ReacSpringShip.user.service.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,8 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -21,6 +22,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final CustomJwtAuthenticationConverter jwtAuthenticationConverter;
+
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtDecoder jwtDecoder, CustomJwtAuthenticationConverter jwtAuthenticationConverter) {
+        this.jwtAuthenticationConverter = jwtAuthenticationConverter;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -28,11 +35,12 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable) //Deshabilitado durante el desarrollo
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",
+                                "/api/v1/auth/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
-                                ).permitAll()
+                        ).permitAll()
+                        .requestMatchers("/api/v1/rooms/**").hasAnyRole("USER", "GUEST")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
@@ -40,24 +48,11 @@ public class SecurityConfig {
                 )
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
-                                jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
+                                jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
                         )
                 );
 
         return http.build();
-    }
-
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        authoritiesConverter.setAuthorityPrefix("ROLE_");
-        authoritiesConverter.setAuthoritiesClaimName("role");
-
-
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
-
-        return converter;
     }
 
     @Bean
