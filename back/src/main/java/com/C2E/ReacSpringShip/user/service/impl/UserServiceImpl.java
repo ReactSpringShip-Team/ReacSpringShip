@@ -3,9 +3,6 @@ package com.C2E.ReacSpringShip.user.service.impl;
 import com.C2E.ReacSpringShip.user.entity.UserEntity;
 import com.C2E.ReacSpringShip.user.repository.UserRepository;
 import com.C2E.ReacSpringShip.user.service.UserService;
-import org.jspecify.annotations.NonNull;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity createUser(String username, String email, String password) {
+    public void createUser(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
             throw new RuntimeException("El username ya está en uso");
         }
@@ -36,7 +33,7 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password));
 
-        return userRepository.save(newUser);
+        userRepository.save(newUser);
     }
 
     public UserEntity findById(UUID userId) {
@@ -47,21 +44,5 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
-
-    @Override
-    public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        "Usuario no encontrado: " + username
-                ));
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles("USER")
-                .accountLocked(!user.isEnabled())
-                .build();
-    }
-
 
 }
