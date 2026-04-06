@@ -20,15 +20,15 @@ public class PlayerResultEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id")
-    private RoomUserEntity user;
+    private RoomUserEntity participant;
 
     private Long score;
 
     private int placement;
 
-    public PlayerResultEntity(GameSessionEntity session, RoomUserEntity user, Long score, int placement) {
+    public PlayerResultEntity(GameSessionEntity session, RoomUserEntity participant, Long score, int placement) {
         this.session = session;
-        this.user = user;
+        this.participant = participant;
         this.score = score;
         this.placement = placement;
     }
@@ -44,12 +44,12 @@ public class PlayerResultEntity {
         this.session = session;
     }
 
-    public RoomUserEntity getUser() {
-        return user;
+    public RoomUserEntity getParticipant() {
+        return participant;
     }
 
-    public void setUser(RoomUserEntity user) {
-        this.user = user;
+    public void setParticipant(RoomUserEntity participant) {
+        this.participant = participant;
     }
 
     public Long getScore() {
