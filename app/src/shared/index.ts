@@ -7,3 +7,4 @@ export { Input } from './components/Input';
 // export { Modal } from './components/Modal';
 export { PauseMenuModal } from './components/PauseMenuModal';
 export { PlayerLives } from './components/PlayerLives';
+export { ErrorMessage } from './components/ErrorMessage';
