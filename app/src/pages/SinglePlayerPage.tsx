@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { HUD } from "../shared/components/HUD"
 import { createPortal } from "react-dom";
-import { PauseMenuModal } from "../shared/components/PauseMenuModal";
-import { GameOverModal } from "../shared/components/GameOverModal";
+import { GameOverModal, HUD, PauseMenuModal } from "../shared";
+
 
 export const SinglePlayerPage = () => {
 

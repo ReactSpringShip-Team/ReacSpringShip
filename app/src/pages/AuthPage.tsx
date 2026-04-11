@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { LoginForm } from "../features/auth/components/LoginForm"
-import { RegisterForm } from "../features/auth/components/RegisterForm";
-import { BackButton } from "../shared/components/BackButton";
 import { useLocation } from "react-router-dom";
+import { BackButton } from "../shared";
+import { LoginForm, RegisterForm } from "../features/auth";
+
 
 type formView = 'login' | 'register';
 

@@ -1,6 +1,6 @@
-import { AudioSettings } from "../features/config/components/AudioSettings";
-import { ControlSettings } from "../features/config/components/ControlSettings";
-import { BackButton } from "../shared/components/BackButton";
+import { AudioSettings, ControlSettings } from "../features/config";
+import { BackButton } from "../shared";
+
 
 export const SettingsPage = () => {
 

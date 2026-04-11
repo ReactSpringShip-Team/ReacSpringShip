@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { GlobalScore } from "../features/leaderboard/components/GlobalScore";
-import { UserScore } from "../features/leaderboard/components/UserScore";
-import { BackButton } from "../shared/components/BackButton";
 import { useLocation } from "react-router-dom";
+import { BackButton } from "../shared";
+import { GlobalScore, UserScore } from "../features/leaderboard";
+
 
 type tab = 'global' | 'user';
 

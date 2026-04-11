@@ -1,6 +1,6 @@
-import { Settings } from "lucide-react"
-import { Button } from "../shared/components/Button"
 import { useNavigate } from "react-router-dom"
+import { Settings } from "lucide-react"
+import { Button } from "../shared";
 
 const isLogin = false; // <-- Change this to use a variable with the useContext
 

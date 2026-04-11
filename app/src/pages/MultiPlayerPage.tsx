@@ -1,12 +1,9 @@
 import { useState } from "react";
 
 import type { viewTab } from "../features/multi-player/types/view.type";
+import { Lobby, MultiplayerCanvas, MultiplayerMenu } from "../features/multi-player";
+import { BackButton } from "../shared";
 
-import { MultiplayerMenu } from "../features/multi-player/components/MultiplayerMenu";
-import { Lobby } from "../features/multi-player/components/Lobby";
-import { MultiplayerCanvas } from "../features/multi-player/components/MultiplayerCanvas";
-
-import { BackButton } from "../shared/components/BackButton";
 
 
 
