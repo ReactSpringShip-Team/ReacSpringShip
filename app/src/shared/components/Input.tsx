@@ -1,12 +1,10 @@
+import { forwardRef } from "react";
 import type { ColorType } from "../types/color.types";
 
 type InputType = 'text' | 'password' | 'email';
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement>{
     type?: InputType;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeHolder?: string;
     color?: ColorType;
 }
 
@@ -19,20 +17,20 @@ const inputColors: Record<ColorType, string> = {
     green: 'border-green-500 shadow-[0_0_15px_#22c55e] focus:shadow-[0_0_25px_#22c55e]',
 };
 
-export const Input = ({ 
+export const Input = forwardRef<HTMLInputElement, Props>(({ 
     type = "text", 
-    value, 
-    onChange, 
-    placeHolder = "", 
-    color = 'pink' 
-}: Props) => {
+    color = 'pink',
+    className,
+    ...props 
+}, ref) => {
   return (
     <input 
+        ref={ref} 
         type={type} 
-        value={value}
-        onChange={onChange}
-        placeholder={placeHolder} 
-        className={`font-sans text-xl border-2 rounded-xl px-4 py-3 mb-6 outline-none w-full max-w-sm bg-transparent placeholder-[#94a3b8] text-white transition-shadow duration-300 ${inputColors[color]}`}
+        className={`font-sans text-xl border-2 rounded-xl px-4 py-3 mb-6 outline-none w-full max-w-sm bg-transparent placeholder-[#94a3b8] text-white transition-shadow duration-300 ${inputColors[color]} ${className}`}
+        {...props} 
     />
   );
-}
+});
+
+Input.displayName = "Input"; 
