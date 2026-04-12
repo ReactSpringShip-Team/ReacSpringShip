@@ -1,4 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form"
+import { authService } from "../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 type RegisterFields = {
     username: string;
@@ -7,10 +9,23 @@ type RegisterFields = {
     confirmPassword: string;
 }
 export const useRegister = () => {
-    const { register, handleSubmit, watch, formState: {errors} } = useForm<RegisterFields>();
-
-    const onSubmit: SubmitHandler<RegisterFields> = (data) => {
-      console.log(data);
+    const { register, handleSubmit, watch, formState: {errors, isSubmitting} } = useForm<RegisterFields>();
+    const navigate = useNavigate();
+    const onSubmit: SubmitHandler<RegisterFields> = async (data) => {
+      try {
+        const response = await authService.register(
+            data.username,
+            data.email,
+            data.password
+        );
+        
+        console.log("Registro exitoso:", response);
+        navigate('/auth', {state: { view: 'login' }});
+        
+      } catch (error) {
+       
+        console.error("Error en el registro:", error);
+      }
     }
 
   return {
@@ -18,6 +33,7 @@ export const useRegister = () => {
     register,
     watch,
     errors,
+    isSubmitting,
     // Functions
     handleSubmit,
     onSubmit

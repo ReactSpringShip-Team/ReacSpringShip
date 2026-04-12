@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const RegisterForm = ({ setView }: Props) => {
-  const { register, watch, errors, handleSubmit, onSubmit } = useRegister();
+  const { register, watch, errors, isSubmitting, handleSubmit, onSubmit } = useRegister();
   const password = watch('password');
 
   return (
@@ -54,7 +54,7 @@ export const RegisterForm = ({ setView }: Props) => {
           <ErrorMessage message={errors.confirmPassword?.message} />
         </div>
        
-        <Button text="Register" btnType="submit" />
+        <Button text="Register" btnType="submit" disabled={isSubmitting}/>
         
         <p className="text-sm mt-5">
           Do you have an account?
