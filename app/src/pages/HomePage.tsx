@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom"
 import { Settings } from "lucide-react"
 import { Button } from "../shared";
-
-const isLogin = false; // <-- Change this to use a variable with the useContext
+import { useAuth } from "../features/auth";
 
 export const HomePage = () => {
-
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const isLogged = () => {
-  if (!isLogin){
+  if (!isAuthenticated){
     return (
       <> 
           <Button text="Login" textSize="text-lg" color="pink" onClick={ ()=> navigate('/auth', {state: { view: 'login' }}) }/>
@@ -19,7 +18,7 @@ export const HomePage = () => {
   }
 
   return (
-    <Button text="User" textSize="text-lg" onClick={ ()=> navigate('/leaderboard', {state: { activeTab: 'user' }}) }/>  
+    <Button text="Logout" textSize="text-lg" onClick={ ()=>  logout()}/>  
   )
 }
  
