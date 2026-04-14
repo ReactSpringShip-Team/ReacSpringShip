@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
+
 import { GameOverModal, HUD, PauseMenuModal } from "../../../shared";
 import { GameCanvas } from "./GameCanvas";
 
