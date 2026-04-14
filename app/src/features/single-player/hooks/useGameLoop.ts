@@ -38,5 +38,6 @@ export const useGameLoop = (onStateChange?: (state: any) => void) => {
     pause,
     resume,
     restart
+
   }
 }

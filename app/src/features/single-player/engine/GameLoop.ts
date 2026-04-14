@@ -6,7 +6,6 @@ import { LevelSystem } from './systems/LevelSystem';
 import { HealthSystem } from './systems/HealthSystem';
 import { EntityManager } from './ecs/EntityManager';
 import { createPlayer } from './ecs/EntityFactories';
-
 export class GameLoop {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;

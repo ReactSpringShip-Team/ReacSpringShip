@@ -84,6 +84,7 @@ export const SinglePlayerGame = () => {
 
       <div className="flex-1 w-full relative">
         <GameCanvas canvasRef={canvasRef as RefObject<HTMLCanvasElement>} />
+
       </div>
 
       {/* === Modals ===*/}
