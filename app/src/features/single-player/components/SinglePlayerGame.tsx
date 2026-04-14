@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { GameOverModal, HUD, PauseMenuModal } from "../../../shared";
+import { GameCanvas } from "./GameCanvas";
 
 export const SinglePlayerGame = () => {
   const [lives, seLives] = useState<number>(3);
@@ -15,7 +16,9 @@ export const SinglePlayerGame = () => {
     <div className="min-h-screen bg-[#051124] flex flex-col text-white pt-4">
       <HUD lives={lives} time={time} score={score} username={userName} />
 
-      <div id="canvas" className="flex-1 bg-gray-500 w-full "></div>
+      <div className="flex-1 w-full relative">
+        <GameCanvas/>
+      </div>
 
       {/* === Modals ===*/}
       {
