@@ -28,11 +28,11 @@ export class Ship implements Entity{
     public update(canvasWidth: number, canvasHeight: number){
 
         // Border logic
-        if(this.x + this.radius >= canvasWidth) this.x = this.radius;
-        else if(this.x - this.radius <= 0) this.x = canvasWidth;
+        if(this.x + this.radius > canvasWidth) this.x = this.radius;
+        else if(this.x - this.radius <= 0) this.x = canvasWidth - this.radius;
 
-        if(this.y + this.radius >= canvasHeight) this.y = this.radius;
-        else if(this.y - this.radius <= 0) this.y = this.radius;
+        if(this.y + this.radius > canvasHeight) this.y = this.radius;
+        else if(this.y - this.radius <= 0) this.y = canvasHeight - this.radius;
 
 
         this.velocity.x *= this.friction;
@@ -40,6 +40,7 @@ export class Ship implements Entity{
 
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        
     }
 
     public incRotation(){
@@ -49,6 +50,17 @@ export class Ship implements Entity{
     public decRotation(){
         this.angle -= this.rotationSpeed;
     }
+
+    public accelerate(){
+        this.velocity.x += Math.cos(this.angle) * this.thrust;
+        this.velocity.y += Math.sin(this.angle) * this.thrust;
+    }
+
+    public desAccelerate(){
+        this.velocity.x -= Math.cos(this.angle) * this.thrust;
+        this.velocity.y -= Math.sin(this.angle) * this.thrust;
+    }
+    
 
 
 
