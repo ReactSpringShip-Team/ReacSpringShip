@@ -45,11 +45,11 @@ export class Ship implements Entity {
     this.y += this.velocity.y;
 
     // Border logic 
-    if (this.x > canvasWidth + this.radius) this.x = -this.radius;
-    else if (this.x < -this.radius) this.x = canvasWidth + this.radius;
+    if (this.x + this.radius > canvasWidth ) this.x = this.radius;
+    else if (this.x - this.radius < 0) this.x = canvasWidth - this.radius;
 
-    if (this.y > canvasHeight + this.radius) this.y = -this.radius;
-    else if (this.y < -this.radius) this.y = canvasHeight + this.radius;
+    if (this.y + this.radius> canvasHeight) this.y = this.radius;
+    else if (this.y - this.radius < 0) this.y = canvasHeight - this.radius;
   }
 
   public incRotation() {
