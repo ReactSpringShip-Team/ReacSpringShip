@@ -2,6 +2,8 @@ import { RenderSystem } from './systems/RenderSystem';
 import { Ship } from './entities/Ship';
 import type { Entity } from './entities/Entity';
 import { InputSystem } from './systems/InputSystem';
+import { Enemy } from './entities/Enemy';
+import { MovementSystem } from './systems/MovementSystem';
 
 export class GameLoop {
   private canvas: HTMLCanvasElement;
@@ -11,10 +13,15 @@ export class GameLoop {
   // Systems
   private renderSystem: RenderSystem;
   private inputSystem: InputSystem;
+  private movementSystem: MovementSystem;
 
   // Game state
   private player: Ship;
+  private enemy: Enemy;
   private entities: Entity[] = [];
+
+  // FPS Limit
+  
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -26,6 +33,7 @@ export class GameLoop {
     // Start the systems
     this.renderSystem = new RenderSystem(this.ctx);
     this.inputSystem = new InputSystem();
+    this.movementSystem = new MovementSystem();
 
     // Initial configuration of the canvas dimensions
     this.resizeCanvas();
@@ -36,8 +44,11 @@ export class GameLoop {
       this.canvas.width / 2 - 20, 
       this.canvas.height - 80
     );
+
+    this.enemy = new Enemy(50, 50);
     
     this.entities.push(this.player);
+    this.entities.push(this.enemy);
   }
 
 
@@ -58,7 +69,8 @@ export class GameLoop {
 
   private update() {
     this.inputSystem.handleMovement(this.player);
-    this.player.update(this.canvas.width, this.canvas.height);
+    //this.player.update(this.canvas.width, this.canvas.height);
+    this.movementSystem.update(this.entities, this.canvas.width, this.canvas.height);
   }
 
   private render() {
