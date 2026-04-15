@@ -7,16 +7,36 @@ export class RenderSystem {
 
   public update(entities: any[]) {
     for (const entity of entities) {
-      // Si la entidad tiene una posición, la dibujamos
       if (entity.x !== undefined && entity.y !== undefined) {
+        this.ctx.save();
         
-        this.ctx.fillStyle = entity.color || '#ffffff';
-        this.ctx.fillRect(entity.x, entity.y, entity.width, entity.height);
+        // Translate to entity center
+        this.ctx.translate(entity.x, entity.y);
+
+        // Apply rotation with a 90-degree offset to align the "up" sprite with the "right" 0-angle
+        const rotation = (entity.angle || 0) + Math.PI / 2;
+        this.ctx.rotate(rotation);
+
+        if (entity.image && entity.isImageLoaded) {
+          this.ctx.drawImage(
+            entity.image, 
+            -entity.width / 2, 
+            -entity.height / 2, 
+            entity.width, 
+            entity.height
+          );
+        } else {
+          this.ctx.fillStyle = entity.color || '#22d3ee';
+          this.ctx.fillRect(
+            - (entity.width || 0) / 2, 
+            - (entity.height || 0) / 2, 
+            entity.width || 0, 
+            entity.height || 0
+          );
+        }
         
-        this.ctx.shadowBlur = 15;
-        this.ctx.shadowColor = entity.color || '#ffffff';
+        this.ctx.restore();
       }
     }
-    this.ctx.shadowBlur = 0; 
   }
 }
