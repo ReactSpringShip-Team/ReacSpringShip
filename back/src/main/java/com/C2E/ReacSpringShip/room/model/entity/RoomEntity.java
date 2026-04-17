@@ -1,7 +1,7 @@
 package com.C2E.ReacSpringShip.room.model.entity;
 
-import com.C2E.ReacSpringShip.room.model.enumeration.StatusEnum;
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.room.model.enumeration.StatusRoomEnum;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -22,7 +22,7 @@ public class RoomEntity {
     private int maxPlayers;
 
     @Enumerated(EnumType.STRING)
-    private StatusEnum status;
+    private StatusRoomEnum status;
 
     @Column(name = "created_at")
     private final LocalDateTime createdAt = LocalDateTime.now();
@@ -40,7 +40,7 @@ public class RoomEntity {
     public RoomEntity() {
     }
 
-    public RoomEntity(String code, int maxPlayers, StatusEnum status, UserEntity user) {
+    public RoomEntity(String code, int maxPlayers, StatusRoomEnum status, UserEntity user) {
         this.code = code;
         this.maxPlayers = maxPlayers;
         this.status = status;
@@ -71,11 +71,11 @@ public class RoomEntity {
         this.maxPlayers = maxPlayers;
     }
 
-    public StatusEnum getStatus() {
+    public StatusRoomEnum getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(StatusRoomEnum status) {
         this.status = status;
     }
 
