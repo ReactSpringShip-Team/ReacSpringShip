@@ -1,4 +1,4 @@
-package com.C2E.ReacSpringShip.ranking.entity;
+package com.C2E.ReacSpringShip.ranking.model.entity;
 
 import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import jakarta.persistence.*;
@@ -49,7 +49,7 @@ public class RankingEntity {
         return user;
     }
 
-    public void setUserEntity(UserEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -75,19 +75,6 @@ public class RankingEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public void updateIfBetter(Integer newScore, Integer newTime) {
-        if (newScore > this.bestScore ||
-                (newScore.equals(this.bestScore) && betterTime(newTime))) {
-            this.bestScore = newScore;
-            this.bestTime = newTime;
-            this.updatedAt = LocalDateTime.now();
-        }
-    }
-
-    private boolean betterTime(Integer newTime) {
-        return this.bestTime == null || newTime < this.bestTime;
     }
 
 }

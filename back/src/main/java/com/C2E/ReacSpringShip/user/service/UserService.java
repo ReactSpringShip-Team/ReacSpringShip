@@ -1,6 +1,6 @@
 package com.C2E.ReacSpringShip.user.service;
 
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 
 import java.util.UUID;
 

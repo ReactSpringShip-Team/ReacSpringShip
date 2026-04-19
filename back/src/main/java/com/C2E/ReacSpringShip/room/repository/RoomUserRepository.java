@@ -2,7 +2,7 @@ package com.C2E.ReacSpringShip.room.repository;
 
 import com.C2E.ReacSpringShip.room.model.entity.RoomEntity;
 import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
