@@ -5,19 +5,15 @@ import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
 import java.util.UUID;
 
 public record JoinedRoomResponse(
-        boolean success,
         UUID participant,
         UUID room,
-        String code,
-        String message
+        String code
 ) {
-    public static JoinedRoomResponse isValid(RoomUserEntity roomUserEntity) {
+    public static JoinedRoomResponse from(RoomUserEntity roomUserEntity) {
         return new JoinedRoomResponse(
-          true,
-          roomUserEntity.getId(),
-          roomUserEntity.getRoom().getId(),
-          roomUserEntity.getRoom().getCode(),
-          "Joined successfully"
+                roomUserEntity.getId(),
+                roomUserEntity.getRoom().getId(),
+                roomUserEntity.getRoom().getCode()
         );
     }
 }
