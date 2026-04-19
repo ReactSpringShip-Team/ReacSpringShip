@@ -1,12 +1,17 @@
 package com.C2E.ReacSpringShip.user.service.impl;
 
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import com.C2E.ReacSpringShip.user.repository.UserRepository;
 import org.jspecify.annotations.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -18,17 +23,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
-                        "Usuario no encontrado: " + username
+                        "Account not registered or invalid credentials"
                 ));
+
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().name()))
+                .collect(Collectors.toSet());
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .roles("USER")
-                .accountLocked(!user.isEnabled())
+                .authorities(authorities)
+                .disabled(!user.isEnabled())
                 .build();
     }
 
