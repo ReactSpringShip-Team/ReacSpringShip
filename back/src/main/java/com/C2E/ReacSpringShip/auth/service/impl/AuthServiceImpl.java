@@ -6,7 +6,7 @@ import com.C2E.ReacSpringShip.auth.dto.request.LoginRequest;
 import com.C2E.ReacSpringShip.auth.dto.request.UserRequest;
 import com.C2E.ReacSpringShip.auth.service.AuthService;
 import com.C2E.ReacSpringShip.auth.service.JwtService;
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import com.C2E.ReacSpringShip.user.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,9 +28,8 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public RegisterResponse register(UserRequest userRequest) {
+    public void register(UserRequest userRequest) {
         userService.createUser(userRequest.username(), userRequest.email(), userRequest.password());
-        return new RegisterResponse(true, "Register success.");
     }
 
     @Override
