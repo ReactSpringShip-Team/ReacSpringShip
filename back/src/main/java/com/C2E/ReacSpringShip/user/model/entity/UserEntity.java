@@ -1,11 +1,13 @@
-package com.C2E.ReacSpringShip.user.entity;
+package com.C2E.ReacSpringShip.user.model.entity;
 
 import com.C2E.ReacSpringShip.room.model.entity.RoomEntity;
 import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +28,7 @@ public class UserEntity {
     private String email;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "enabled")
     private Boolean enabled = true; //sujeto a cambios para la verificacion de email
@@ -37,12 +39,23 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch =  FetchType.LAZY)
     public List<RoomUserEntity>  roomUsers;
 
-    public UserEntity(UUID id, String username, String password, String email, LocalDateTime createdAt) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    public Set<RoleEntity> roles = new HashSet<>();
+
+    public UserEntity(UUID id, String username, String password, String email, Boolean enabled, List<RoomEntity> rooms, List<RoomUserEntity> roomUsers, Set<RoleEntity> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.rooms = rooms;
+        this.roomUsers = roomUsers;
+        this.roles = roles;
     }
 
     public UserEntity(String username, String password, String email) {
@@ -56,10 +69,6 @@ public class UserEntity {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getEmail() {
@@ -97,5 +106,37 @@ public class UserEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<RoomEntity> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<RoomEntity> rooms) {
+        this.rooms = rooms;
+    }
+
+    public List<RoomUserEntity> getRoomUsers() {
+        return roomUsers;
+    }
+
+    public void setRoomUsers(List<RoomUserEntity> roomUsers) {
+        this.roomUsers = roomUsers;
+    }
+
+    public Set<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
