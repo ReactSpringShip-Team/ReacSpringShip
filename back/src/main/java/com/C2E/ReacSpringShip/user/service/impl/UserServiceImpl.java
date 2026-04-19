@@ -1,6 +1,8 @@
 package com.C2E.ReacSpringShip.user.service.impl;
 
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.common.exception.DuplicateResourceException;
+import com.C2E.ReacSpringShip.common.exception.ResourceNotFoundException;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import com.C2E.ReacSpringShip.user.repository.UserRepository;
 import com.C2E.ReacSpringShip.user.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,10 +24,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
-            throw new RuntimeException("El username ya está en uso");
+            throw new DuplicateResourceException("An account with that username already exists.");
         }
         if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("El email ya está en uso");
+            throw new DuplicateResourceException("An account with that email already exists.");
         }
 
         UserEntity newUser = new UserEntity();
@@ -38,11 +40,11 @@ public class UserServiceImpl implements UserService {
 
     public UserEntity findById(UUID userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found.", userId.toString()));
     }
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found.", username));
     }
 
 }

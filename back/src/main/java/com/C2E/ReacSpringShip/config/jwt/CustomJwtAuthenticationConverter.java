@@ -1,11 +1,11 @@
 package com.C2E.ReacSpringShip.config.jwt;
 
+import com.C2E.ReacSpringShip.common.exception.ResourceNotFoundException;
 import com.C2E.ReacSpringShip.user.repository.UserRepository;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Abstract
         //Si es usuario registrado, el sub es su user_id
         UUID userId = UUID.fromString(jwt.getSubject());
         userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found", userId));
 
         return new JwtAuthenticationToken(jwt, authorities, userId.toString());
     }
