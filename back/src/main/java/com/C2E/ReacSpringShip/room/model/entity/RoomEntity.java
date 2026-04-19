@@ -31,8 +31,11 @@ public class RoomEntity {
     private LocalDateTime endedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = true)
+    @JoinColumn(name = "created_by_user", nullable = true)
     private UserEntity user;
+
+    @Column(name = "created_by_guest")
+    private UUID guest;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<RoomUserEntity> roomUsers;
@@ -97,5 +100,21 @@ public class RoomEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public UUID getGuest() {
+        return guest;
+    }
+
+    public void setGuest(UUID guest) {
+        this.guest = guest;
+    }
+
+    public List<RoomUserEntity> getRoomUsers() {
+        return roomUsers;
+    }
+
+    public void setRoomUsers(List<RoomUserEntity> roomUsers) {
+        this.roomUsers = roomUsers;
     }
 }
