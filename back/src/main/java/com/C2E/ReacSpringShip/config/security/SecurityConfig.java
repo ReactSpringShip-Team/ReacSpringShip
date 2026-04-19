@@ -1,6 +1,7 @@
 package com.C2E.ReacSpringShip.config.security;
 
 import com.C2E.ReacSpringShip.config.jwt.CustomJwtAuthenticationConverter;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,17 +18,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@EnableConfigurationProperties(CorsProperties.class)
 public class SecurityConfig {
 
+    private final CorsProperties corsProperties;
     private final CustomJwtAuthenticationConverter jwtAuthenticationConverter;
 
-    public SecurityConfig(CustomJwtAuthenticationConverter jwtAuthenticationConverter) {
+    public SecurityConfig(CustomJwtAuthenticationConverter jwtAuthenticationConverter,  CorsProperties corsProperties) {
         this.jwtAuthenticationConverter = jwtAuthenticationConverter;
+        this.corsProperties = corsProperties;
     }
 
     @Bean
@@ -38,9 +40,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/auth/**",
+                                "/api/v1/rankings/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/actuator/health"
                         ).permitAll()
                         .requestMatchers("/api/v1/rooms/**").hasAnyRole("USER", "GUEST")
                         .anyRequest().authenticated()
@@ -60,10 +64,10 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("*"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        config.setAllowedOrigins(corsProperties.allowedOrigins());
+        config.setAllowedMethods(corsProperties.allowedMethods());
+        config.setAllowedHeaders(corsProperties.allowedHeaders());
+        config.setAllowCredentials(corsProperties.allowCredentials());
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
