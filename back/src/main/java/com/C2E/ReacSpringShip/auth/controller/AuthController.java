@@ -37,6 +37,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Validation errors in request body",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
+    @PostMapping("/register")
     public ResponseEntity<GeneralResponse<Void>> register(@RequestBody @Valid UserRequest userRequest) {
         authService.register(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(GeneralResponse.ok("User registered successfully."));
