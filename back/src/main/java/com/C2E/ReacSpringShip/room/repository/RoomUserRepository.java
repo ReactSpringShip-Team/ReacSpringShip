@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface RoomUserRepository  extends JpaRepository<RoomUserEntity, UUID> {
     Optional<RoomUserEntity> findByRoomAndUser(RoomEntity room, UserEntity user);
+    Optional<RoomUserEntity> findByRoomAndUserId(RoomEntity room, UUID userId);
     Optional<RoomUserEntity> findByRoomAndGuestToken(RoomEntity room, UUID guestToken);
     List<RoomUserEntity> findAllByRoom(RoomEntity room);
     boolean existsByRoomAndUser(RoomEntity room, UserEntity user);
