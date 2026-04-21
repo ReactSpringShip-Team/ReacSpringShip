@@ -79,7 +79,6 @@ public class UserEntity {
         this.email = email;
     }
 
-
     public String getPassword() {
         return password;
     }
@@ -96,6 +95,10 @@ public class UserEntity {
         return enabled;
     }
 
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -106,14 +109,6 @@ public class UserEntity {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
     }
 
     public List<RoomEntity> getRooms() {
@@ -139,4 +134,5 @@ public class UserEntity {
     public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
     }
+
 }

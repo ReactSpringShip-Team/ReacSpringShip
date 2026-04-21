@@ -1,17 +1,13 @@
 package com.C2E.ReacSpringShip.user.service.impl;
 
+import com.C2E.ReacSpringShip.user.model.MainUser;
 import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import com.C2E.ReacSpringShip.user.repository.UserRepository;
 import org.jspecify.annotations.NonNull;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -30,16 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         "Account not registered or invalid credentials"
                 ));
 
-        Set<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().name()))
-                .collect(Collectors.toSet());
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .authorities(authorities)
-                .disabled(!user.isEnabled())
-                .build();
+        return new MainUser(user);
     }
 
 }
