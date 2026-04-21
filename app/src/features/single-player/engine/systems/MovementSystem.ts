@@ -21,11 +21,36 @@ export class MovementSystem {
       pos.y += physics.velocity.y;
 
       // Screen Border Logic
-      if (pos.x + physics.radius > canvasWidth) pos.x = physics.radius;
-      else if (pos.x - physics.radius < 0) pos.x = canvasWidth - physics.radius;
+      const input = entityManager.getComponent(id, "input");
+      const isPlayer = input?.isPlayerControlled;
 
-      if (pos.y + physics.radius > canvasHeight) pos.y = physics.radius;
-      else if (pos.y - physics.radius < 0) pos.y = canvasHeight - physics.radius;
+      if (isPlayer) {
+        // Wrap logic for player ship
+        if (pos.x + physics.radius > canvasWidth) pos.x = physics.radius;
+        else if (pos.x - physics.radius < 0)
+          pos.x = canvasWidth - physics.radius;
+
+        if (pos.y + physics.radius > canvasHeight) pos.y = physics.radius;
+        else if (pos.y - physics.radius < 0)
+          pos.y = canvasHeight - physics.radius;
+      } else {
+        // Bounce logic for enemies
+        if (pos.x + physics.radius > canvasWidth) {
+          pos.x = canvasWidth - physics.radius;
+          physics.velocity.x *= -1;
+        } else if (pos.x - physics.radius < 0) {
+          pos.x = physics.radius;
+          physics.velocity.x *= -1;
+        }
+
+        if (pos.y + physics.radius > canvasHeight) {
+          pos.y = canvasHeight - physics.radius;
+          physics.velocity.y *= -1;
+        } else if (pos.y - physics.radius < 0) {
+          pos.y = physics.radius;
+          physics.velocity.y *= -1;
+        }
+      }
     }
   }
 }
