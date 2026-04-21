@@ -1,13 +1,14 @@
-import { useGameLoop } from "../hooks/useGameLoop"
+import React from "react";
 
-export const GameCanvas = () => {
+interface GameCanvasProps {
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}
 
-    const { canvasRef } = useGameLoop();
-    
+export const GameCanvas: React.FC<GameCanvasProps> = ({ canvasRef }) => {
   return (
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full block bg-black"
     ></canvas>
-  )
-}
+  );
+};
