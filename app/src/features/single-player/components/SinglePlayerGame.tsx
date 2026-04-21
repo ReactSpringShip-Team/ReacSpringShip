@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, type RefObject } from "react";
 import { createPortal } from "react-dom";
 
-import { HUD } from "../../../shared";
+import { HUD } from "./HUD";
 import { GameCanvas } from "./GameCanvas";
 import { PauseMenu } from "./PauseMenu";
 import { GameOverScreen } from "./GameOverScreen";
