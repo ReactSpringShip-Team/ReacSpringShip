@@ -1,0 +1,1 @@
+export type entityType = 'player' | 'enemy' | 'bullet' | 'particle';
