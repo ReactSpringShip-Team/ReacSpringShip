@@ -14,6 +14,7 @@ export class GameLoop {
 
   // ECS Core
   private entityManager: EntityManager;
+  private isPaused: boolean = false;
 
   // Systems
   private renderSystem: RenderSystem;
@@ -59,6 +60,12 @@ export class GameLoop {
   public start() {
     this.lastTime = performance.now();
     const loop = (timestamp: number) => {
+      if (this.isPaused) {
+        this.lastTime = timestamp; 
+        this.animationId = requestAnimationFrame(loop);
+        return;
+      }
+
       const deltaTime = timestamp - this.lastTime;
       this.lastTime = timestamp;
 
@@ -67,6 +74,15 @@ export class GameLoop {
       this.animationId = requestAnimationFrame(loop);
     };
     this.animationId = requestAnimationFrame(loop);
+  }
+
+  public pause() {
+    this.isPaused = true;
+  }
+
+  public resume() {
+    this.isPaused = false;
+    this.lastTime = performance.now();
   }
 
   private update(deltaTime: number) {
