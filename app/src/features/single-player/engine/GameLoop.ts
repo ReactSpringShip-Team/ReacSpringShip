@@ -2,13 +2,15 @@ import { RenderSystem } from './systems/RenderSystem';
 import { InputSystem } from './systems/InputSystem';
 import { MovementSystem } from './systems/MovementSystem';
 import { CollisionSystem } from './systems/CollisionSystem';
+import { LevelSystem } from './systems/LevelSystem';
 import { EntityManager } from './ecs/EntityManager';
-import { createPlayer, createEnemy } from './ecs/EntityFactories';
+import { createPlayer } from './ecs/EntityFactories';
 
 export class GameLoop {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private animationId: number = 0;
+  private lastTime: number = 0;
 
   // ECS Core
   private entityManager: EntityManager;
@@ -18,6 +20,7 @@ export class GameLoop {
   private inputSystem: InputSystem;
   private movementSystem: MovementSystem;
   private collisionSystem: CollisionSystem;
+  private levelSystem: LevelSystem;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -34,26 +37,18 @@ export class GameLoop {
     this.inputSystem = new InputSystem();
     this.movementSystem = new MovementSystem();
     this.collisionSystem = new CollisionSystem();
+    this.levelSystem = new LevelSystem();
 
     // Initial configuration
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
-    // Initialize Entities via Factories
+    // Initialize Player
     createPlayer(
       this.entityManager, 
       this.canvas.width / 2 - 20, 
       this.canvas.height - 80
     );
-
-    // Create some enemies
-    for (let i = 0; i < 5; i++) {
-      createEnemy(
-        this.entityManager,
-        Math.random() * this.canvas.width,
-        Math.random() * (this.canvas.height / 2)
-      );
-    }
   }
 
   private resizeCanvas = () => {
@@ -62,33 +57,44 @@ export class GameLoop {
   }
 
   public start() {
+    this.lastTime = performance.now();
     const loop = (timestamp: number) => {
-      this.update();
+      const deltaTime = timestamp - this.lastTime;
+      this.lastTime = timestamp;
+
+      this.update(deltaTime);
       this.render();
       this.animationId = requestAnimationFrame(loop);
     };
     this.animationId = requestAnimationFrame(loop);
   }
 
-  private update() {
-    // 1. Handle Input
+  private update(deltaTime: number) {
+    // 1. Level & Spawning
+    this.levelSystem.update(
+      this.entityManager, 
+      deltaTime, 
+      this.canvas.width, 
+      this.canvas.height
+    );
+
+    // 2. Handle Input
     this.inputSystem.update(this.entityManager);
 
-    // 2. Process Physics and Movement
+    // 3. Process Physics and Movement
     this.movementSystem.update(
       this.entityManager, 
       this.canvas.width, 
       this.canvas.height
     );
 
-    // 3. Handle Collisions
+    // 4. Handle Collisions
     this.collisionSystem.update(this.entityManager);
   }
 
   private render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // 3. Render everything
     this.renderSystem.update(this.entityManager);
   }
 
