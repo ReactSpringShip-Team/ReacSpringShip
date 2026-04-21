@@ -23,7 +23,7 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onResume, onExit }) => {
         <div className="absolute inset-0 bg-cyan-500/5 rounded-2xl -z-10"></div>
         
         <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] uppercase tracking-widest">
-          Pausa
+          Pause
         </h2>
 
         <div className="flex flex-col w-full gap-4 mt-4">
@@ -31,14 +31,14 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onResume, onExit }) => {
             onClick={onResume}
             className="w-full py-3 px-6 bg-transparent border border-cyan-500 text-cyan-400 font-semibold rounded-lg hover:bg-cyan-500 hover:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(6,182,212,0.8)] active:scale-95"
           >
-            REANUDAR
+            CONTINUE
           </button>
           
           <button
             onClick={handleExit}
             className="w-full py-3 px-6 bg-transparent border border-red-500 text-red-500 font-semibold rounded-lg hover:bg-red-500 hover:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(239,68,68,0.8)] active:scale-95"
           >
-            SALIR
+            EXIT
           </button>
         </div>
 

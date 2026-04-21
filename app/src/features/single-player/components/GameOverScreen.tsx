@@ -22,7 +22,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
         </h2>
 
         <div className="flex flex-col items-center gap-2">
-          <p className="text-gray-400 uppercase tracking-widest text-sm">Puntuación Final</p>
+          <p className="text-gray-400 uppercase tracking-widest text-sm">Final Score:</p>
           <p className="text-4xl font-mono font-bold text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]">
             {score.toLocaleString()}
           </p>
@@ -33,14 +33,14 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
             onClick={onRestart}
             className="w-full py-4 px-8 bg-purple-600 border border-purple-400 text-white font-bold rounded-xl hover:bg-purple-500 transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] active:scale-95 uppercase tracking-widest"
           >
-            VOLVER A JUGAR
+           Play Again
           </button>
           
           <button
             onClick={onExit}
             className="w-full py-4 px-8 bg-transparent border border-gray-600 text-gray-400 font-bold rounded-xl hover:border-gray-400 hover:text-white transition-all duration-300 active:scale-95 uppercase tracking-widest"
           >
-            SALIR AL MENÚ
+           Go to the menu
           </button>
         </div>
 
