@@ -4,6 +4,7 @@ import type {
   PhysicsComponent,
   RenderComponent,
   InputComponent,
+  HealthComponent,
 } from "../components";
 
 export const createPlayer = (
@@ -43,10 +44,18 @@ export const createPlayer = (
     shotDelay: 250 
   };
 
+  const health: HealthComponent = {
+    lives: 3,
+    isInvulnerable: false,
+    invulnerabilityTimer: 0,
+    invulnerabilityDuration: 3000, 
+  };
+
   entityManager.addComponent(id, "position", pos);
   entityManager.addComponent(id, "physics", physics);
   entityManager.addComponent(id, "render", render);
   entityManager.addComponent(id, "input", input);
+  entityManager.addComponent(id, "health", health);
 
   return id;
 };
@@ -100,7 +109,7 @@ export const createEnemy = (
   const pos: PositionComponent = { x, y, angle: 0 };
   const physics: PhysicsComponent = {
     velocity: { x: initialVelocity, y: initialVelocity },
-    friction: 1, // Los enemigos no suelen tener fricción en este tipo de juegos
+    friction: 1, 
     thrust: 0,
     rotationSpeed: 0,
     radius,

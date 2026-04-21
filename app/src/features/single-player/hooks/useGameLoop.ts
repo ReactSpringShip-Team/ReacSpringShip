@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from "react"
 import { GameLoop } from "../engine/GameLoop";
 
-export const useGameLoop = () => {
+export const useGameLoop = (onStateChange?: (state: any) => void) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const gameEngineRef = useRef<GameLoop | null>(null);
 
@@ -10,14 +10,14 @@ export const useGameLoop = () => {
 
         if(!canvas) return;
 
-        const gameEngine = new GameLoop(canvas);
+        const gameEngine = new GameLoop(canvas, onStateChange);
         gameEngineRef.current = gameEngine;
         gameEngine.start();
 
         return () => {
             gameEngine.stop();
         }
-    }, []);
+    }, [onStateChange]);
 
     const pause = useCallback(() => {
         gameEngineRef.current?.pause();
@@ -27,11 +27,16 @@ export const useGameLoop = () => {
         gameEngineRef.current?.resume();
     }, []);
 
+    const restart = useCallback(() => {
+      gameEngineRef.current?.restart();
+    }, []);
+
   return {
     // Atributes
     canvasRef,
     // Methods
     pause,
-    resume
+    resume,
+    restart
   }
 }

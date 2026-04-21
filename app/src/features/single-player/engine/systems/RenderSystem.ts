@@ -13,6 +13,11 @@ export class RenderSystem {
     for (const id of entities) {
       const pos = entityManager.getComponent(id, "position")!;
       const render = entityManager.getComponent(id, "render")!;
+      const health = entityManager.getComponent(id, "health");
+
+      if (health?.isInvulnerable) {
+        if (Math.floor(Date.now() / 100) % 2 === 0) continue;
+      }
 
       this.ctx.save();
 

@@ -1,6 +1,6 @@
 import { EntityManager, type EntityId } from "../ecs/EntityManager";
 import type { Velocity } from "../../interfaces/Velocity.interface";
-import type { PositionComponent, PhysicsComponent } from "../components";
+import type { PositionComponent, PhysicsComponent, HealthComponent } from "../components";
 
 export class CollisionSystem {
   public update(entityManager: EntityManager) {
@@ -93,7 +93,11 @@ export class CollisionSystem {
     for (const pId of playerIds) {
       const pPos = entityManager.getComponent(pId, "position");
       const pPhys = entityManager.getComponent(pId, "physics");
-      if (!pPos || !pPhys) continue;
+      const pHealth = entityManager.getComponent(pId, "health");
+      
+      if (!pPos || !pPhys || !pHealth) continue;
+      
+      if (pHealth.isInvulnerable) continue;
 
       for (const eId of enemyIds) {
         const ePos = entityManager.getComponent(eId, "position");
@@ -105,7 +109,14 @@ export class CollisionSystem {
         const radiusSum = pPhys.radius + ePhys.radius;
 
         if (distSqr < radiusSum * radiusSum) {
-          console.log("nave X enemigo");
+          pHealth.lives--;
+          pHealth.isInvulnerable = true;
+          pHealth.invulnerabilityTimer = 0;
+          
+          console.log(`¡Jugador golpeado! Vidas restantes: ${pHealth.lives}`);
+          
+          entityManager.removeEntity(eId); 
+          break; 
         }
       }
     }

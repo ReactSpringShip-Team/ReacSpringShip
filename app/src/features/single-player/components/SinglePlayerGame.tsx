@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback, type RefObject } from "react";
 import { createPortal } from "react-dom";
 
-import { GameOverModal, HUD } from "../../../shared";
+import { HUD } from "../../../shared";
 import { GameCanvas } from "./GameCanvas";
 import { PauseMenu } from "./PauseMenu";
+import { GameOverScreen } from "./GameOverScreen";
 import { useGameLoop } from "../hooks/useGameLoop";
 import { useNavigate } from "react-router-dom";
 
@@ -14,9 +15,16 @@ export const SinglePlayerGame = () => {
   const [showPauseMenu, setShowPauseMenu] = useState(false);
   const [showGameOver, setGameOver] = useState(false);
 
-  const { canvasRef, pause, resume } = useGameLoop();
-
   const navigate = useNavigate();
+
+  const handleStateChange = useCallback((state: any) => {
+    seLives(state.lives);
+    if (state.isGameOver) {
+      setGameOver(true);
+    }
+  }, []);
+
+  const { canvasRef, pause, resume, restart } = useGameLoop(handleStateChange);
 
   const handlePause = useCallback(() => {
     if (!showGameOver) {
@@ -29,6 +37,14 @@ export const SinglePlayerGame = () => {
     setShowPauseMenu(false);
     resume();
   }, [resume]);
+
+  const handleRestart = useCallback(() => {
+    setGameOver(false);
+    seLives(3);
+    setScore(0);
+    setTime(0);
+    restart();
+  }, [restart]);
 
   const handleExit = () => {
     navigate('/home');
@@ -78,7 +94,7 @@ export const SinglePlayerGame = () => {
 
       {
         showGameOver && createPortal(
-          <GameOverModal onExit={() => setGameOver(false)} />, 
+          <GameOverScreen score={score} onRestart={handleRestart} onExit={handleExit} />, 
           document.body
         )
       }
