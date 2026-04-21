@@ -6,4 +6,4 @@ spring:
     name: ReacSpringShip
 
   profiles:
-    active: dev
+    active: ${PROFILE_ACTIVE:dev}

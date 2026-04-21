@@ -1,0 +1,1 @@
+ALTER TABLE rankings ADD COLUMN best_time INTEGER;

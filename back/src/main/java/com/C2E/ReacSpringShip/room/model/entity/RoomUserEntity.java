@@ -1,8 +1,8 @@
 package com.C2E.ReacSpringShip.room.model.entity;
 
 import com.C2E.ReacSpringShip.game.model.entity.PlayerResultEntity;
-import com.C2E.ReacSpringShip.room.model.enumeration.RoleEnum;
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.room.model.enumeration.RoleRoomEnum;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -33,7 +33,7 @@ public class RoomUserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role_room")
-    private RoleEnum role;
+    private RoleRoomEnum role;
 
     @Column(name = "joined_at")
     private LocalDateTime joinedAt;
@@ -44,7 +44,7 @@ public class RoomUserEntity {
     @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
     private List<PlayerResultEntity> playerResults;
 
-    public RoomUserEntity(RoomEntity room, UserEntity user, UUID guestToken, String nickname, RoleEnum role, LocalDateTime joinedAt, boolean isConected) {
+    public RoomUserEntity(RoomEntity room, UserEntity user, UUID guestToken, String nickname, RoleRoomEnum role, LocalDateTime joinedAt, boolean isConected) {
         this.room = room;
         this.user = user;
         this.guestToken = guestToken;
@@ -96,11 +96,11 @@ public class RoomUserEntity {
         this.nickname = nickname;
     }
 
-    public RoleEnum getRole() {
+    public RoleRoomEnum getRole() {
         return role;
     }
 
-    public void setRole(RoleEnum role) {
+    public void setRole(RoleRoomEnum role) {
         this.role = role;
     }
 

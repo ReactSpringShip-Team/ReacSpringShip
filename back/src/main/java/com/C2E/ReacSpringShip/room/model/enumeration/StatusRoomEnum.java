@@ -1,6 +1,6 @@
 package com.C2E.ReacSpringShip.room.model.enumeration;
 
-public enum StatusEnum {
+public enum StatusRoomEnum {
     WAITING,
     STARTING,
     PLAYING,

@@ -1,13 +1,14 @@
 package com.C2E.ReacSpringShip.room.service.impl;
 
+import com.C2E.ReacSpringShip.common.exception.ResourceNotFoundException;
 import com.C2E.ReacSpringShip.room.model.entity.RoomEntity;
 import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
-import com.C2E.ReacSpringShip.room.model.enumeration.RoleEnum;
-import com.C2E.ReacSpringShip.room.model.enumeration.StatusEnum;
+import com.C2E.ReacSpringShip.room.model.enumeration.RoleRoomEnum;
+import com.C2E.ReacSpringShip.room.model.enumeration.StatusRoomEnum;
 import com.C2E.ReacSpringShip.room.repository.RoomRepository;
 import com.C2E.ReacSpringShip.room.repository.RoomUserRepository;
 import com.C2E.ReacSpringShip.room.service.RoomService;
-import com.C2E.ReacSpringShip.user.entity.UserEntity;
+import com.C2E.ReacSpringShip.user.model.entity.UserEntity;
 import com.C2E.ReacSpringShip.user.service.UserService;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
@@ -32,17 +33,20 @@ public class RoomServiceImpl implements RoomService {
         RoomEntity room = new RoomEntity();
         room.setCode(generateUniqueCode());
         room.setMaxPlayers(maxPlayers);
-        room.setStatus(StatusEnum.WAITING);
+        room.setStatus(StatusRoomEnum.WAITING);
 
         String userRole = jwt.getClaimAsString("role");
-        if (!"GUEST".equals(userRole)) {
-            UUID userId = UUID.fromString(jwt.getSubject());
-            UserEntity user = userService.findById(userId);
+        UUID subjectId = UUID.fromString(jwt.getSubject());
+
+        if ("GUEST".equals(userRole)) {
+            room.setGuest(subjectId);
+        } else {
+            UserEntity user = userService.findById(subjectId);
             room.setUser(user);
         }
 
         RoomEntity savedRoom = roomRepository.save(room);
-        addParticipant(savedRoom, jwt, RoleEnum.HOST);
+        addParticipant(savedRoom, jwt, RoleRoomEnum.HOST);
         return savedRoom;
     }
 
@@ -51,7 +55,7 @@ public class RoomServiceImpl implements RoomService {
         RoomEntity room = roomRepository.findByCode(code)
                 .orElseThrow(() -> new RuntimeException("Sala no encontrada"));
 
-        if (room.getStatus() != StatusEnum.WAITING) {
+        if (room.getStatus() != StatusRoomEnum.WAITING) {
             throw new RuntimeException("La sala no está disponible");
         }
 
@@ -65,13 +69,13 @@ public class RoomServiceImpl implements RoomService {
             throw new RuntimeException("Ya estás en esta sala");
         }
 
-        return addParticipant(room, jwt, RoleEnum.PLAYER);
+        return addParticipant(room, jwt, RoleRoomEnum.PLAYER);
     }
 
     @Override
-    public RoomEntity changeStatus(UUID roomId, StatusEnum newStatus) {
+    public RoomEntity changeStatus(UUID roomId, StatusRoomEnum newStatus) {
         RoomEntity room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Sala no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Sala no encontrada", roomId));
         room.setStatus(newStatus);
         return roomRepository.save(room);
     }
@@ -79,12 +83,12 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomEntity findById(UUID roomId) {
         return roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Sala no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Sala no encontrada", roomId));
     }
 
     // private methods
 
-    private RoomUserEntity addParticipant(RoomEntity room, Jwt jwt, RoleEnum role) {
+    private RoomUserEntity addParticipant(RoomEntity room, Jwt jwt, RoleRoomEnum role) {
         RoomUserEntity participant = new RoomUserEntity();
         participant.setRoom(room);
         participant.setRole(role);
