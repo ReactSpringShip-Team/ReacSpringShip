@@ -1,6 +1,7 @@
 import { RenderSystem } from './systems/RenderSystem';
 import { InputSystem } from './systems/InputSystem';
 import { MovementSystem } from './systems/MovementSystem';
+import { CollisionSystem } from './systems/CollisionSystem';
 import { EntityManager } from './ecs/EntityManager';
 import { createPlayer, createEnemy } from './ecs/EntityFactories';
 
@@ -16,6 +17,7 @@ export class GameLoop {
   private renderSystem: RenderSystem;
   private inputSystem: InputSystem;
   private movementSystem: MovementSystem;
+  private collisionSystem: CollisionSystem;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -31,6 +33,7 @@ export class GameLoop {
     this.renderSystem = new RenderSystem(this.ctx);
     this.inputSystem = new InputSystem();
     this.movementSystem = new MovementSystem();
+    this.collisionSystem = new CollisionSystem();
 
     // Initial configuration
     this.resizeCanvas();
@@ -77,6 +80,9 @@ export class GameLoop {
       this.canvas.width, 
       this.canvas.height
     );
+
+    // 3. Handle Collisions
+    this.collisionSystem.update(this.entityManager);
   }
 
   private render() {

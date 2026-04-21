@@ -20,6 +20,7 @@ export const createPlayer = (
     thrust: 0.2,
     rotationSpeed: 0.1,
     radius: 30,
+    mass: 1,
   };
 
   const image = new Image();
@@ -62,6 +63,7 @@ export const createEnemy = (
     thrust: 0,
     rotationSpeed: 0,
     radius,
+    mass: 1,
   };
 
   const image = new Image();

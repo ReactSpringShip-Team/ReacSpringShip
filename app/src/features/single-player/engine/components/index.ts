@@ -12,6 +12,7 @@ export interface PhysicsComponent {
   thrust: number;
   rotationSpeed: number;
   radius: number;
+  mass: number;
 }
 
 export interface RenderComponent {
