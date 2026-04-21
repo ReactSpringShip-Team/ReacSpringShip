@@ -1,4 +1,5 @@
 import { EntityManager } from "../ecs/EntityManager";
+import { createBullet } from "../ecs/EntityFactories";
 
 export class InputSystem {
   private myKeys: Record<string, { pressed: boolean }> = {
@@ -12,13 +13,13 @@ export class InputSystem {
   private handleKeyDown = (e: KeyboardEvent) => {
     const key = e.key.toLowerCase();
     if (key === " ") this.myKeys.space.pressed = true;
-    if (this.myKeys[key]) this.myKeys[key].pressed = true;
+    else if (this.myKeys[key]) this.myKeys[key].pressed = true;
   };
 
   private handleKeyUp = (e: KeyboardEvent) => {
     const key = e.key.toLowerCase();
     if (key === " ") this.myKeys.space.pressed = false;
-    if (this.myKeys[key]) this.myKeys[key].pressed = false;
+    else if (this.myKeys[key]) this.myKeys[key].pressed = false;
   };
 
   constructor() {
@@ -58,6 +59,25 @@ export class InputSystem {
       }
       if (this.myKeys.d.pressed) {
         pos.angle += physics.rotationSpeed;
+      }
+
+      // Shooting logic
+      if (this.myKeys.space.pressed) {
+        const currentTime = Date.now();
+        if (currentTime - input.lastShot > input.shotDelay) {
+          const bulletX = pos.x + Math.cos(pos.angle) * physics.radius;
+          const bulletY = pos.y + Math.sin(pos.angle) * physics.radius;
+          
+          createBullet(
+            entityManager,
+            bulletX,
+            bulletY,
+            pos.angle,
+            physics.velocity
+          );
+          
+          input.lastShot = currentTime;
+        }
       }
     }
   }

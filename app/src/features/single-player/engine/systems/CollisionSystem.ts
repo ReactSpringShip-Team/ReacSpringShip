@@ -11,11 +11,16 @@ export class CollisionSystem {
 
     const playerIds: EntityId[] = [];
     const enemyIds: EntityId[] = [];
+    const bulletIds: EntityId[] = [];
 
     for (const id of entities) {
       const input = entityManager.getComponent(id, "input");
+      const physics = entityManager.getComponent(id, "physics")!;
+
       if (input?.isPlayerControlled) {
         playerIds.push(id);
+      } else if (physics.radius <= 5) {
+        bulletIds.push(id);
       } else {
         enemyIds.push(id);
       }
@@ -23,6 +28,35 @@ export class CollisionSystem {
 
     this.handleEnemyEnemyCollisions(enemyIds, entityManager);
     this.handlePlayerEnemyCollisions(playerIds, enemyIds, entityManager);
+    this.handleBulletEnemyCollisions(bulletIds, enemyIds, entityManager);
+  }
+
+  private handleBulletEnemyCollisions(
+    bulletIds: EntityId[],
+    enemyIds: EntityId[],
+    entityManager: EntityManager
+  ) {
+    for (const bId of bulletIds) {
+      const bPos = entityManager.getComponent(bId, "position");
+      const bPhys = entityManager.getComponent(bId, "physics");
+      if (!bPos || !bPhys) continue;
+
+      for (const eId of enemyIds) {
+        const ePos = entityManager.getComponent(eId, "position");
+        const ePhys = entityManager.getComponent(eId, "physics");
+        
+        if (!ePos || !ePhys) continue;
+
+        const distSqr = this.getDistanceSqr(bPos.x, bPos.y, ePos.x, ePos.y);
+        const radiusSum = bPhys.radius + ePhys.radius;
+
+        if (distSqr < radiusSum * radiusSum) {
+          entityManager.removeEntity(eId);
+          entityManager.removeEntity(bId);
+          break; 
+        }
+      }
+    }
   }
 
   private handleEnemyEnemyCollisions(
@@ -34,10 +68,12 @@ export class CollisionSystem {
         const id1 = enemyIds[i];
         const id2 = enemyIds[j];
 
-        const pos1 = entityManager.getComponent(id1, "position")!;
-        const pos2 = entityManager.getComponent(id2, "position")!;
-        const phys1 = entityManager.getComponent(id1, "physics")!;
-        const phys2 = entityManager.getComponent(id2, "physics")!;
+        const pos1 = entityManager.getComponent(id1, "position");
+        const pos2 = entityManager.getComponent(id2, "position");
+        const phys1 = entityManager.getComponent(id1, "physics");
+        const phys2 = entityManager.getComponent(id2, "physics");
+
+        if (!pos1 || !pos2 || !phys1 || !phys2) continue;
 
         const distSqr = this.getDistanceSqr(pos1.x, pos1.y, pos2.x, pos2.y);
         const radiusSum = phys1.radius + phys2.radius;
@@ -55,19 +91,21 @@ export class CollisionSystem {
     entityManager: EntityManager
   ) {
     for (const pId of playerIds) {
-      const pPos = entityManager.getComponent(pId, "position")!;
-      const pPhys = entityManager.getComponent(pId, "physics")!;
+      const pPos = entityManager.getComponent(pId, "position");
+      const pPhys = entityManager.getComponent(pId, "physics");
+      if (!pPos || !pPhys) continue;
 
       for (const eId of enemyIds) {
-        const ePos = entityManager.getComponent(eId, "position")!;
-        const ePhys = entityManager.getComponent(eId, "physics")!;
+        const ePos = entityManager.getComponent(eId, "position");
+        const ePhys = entityManager.getComponent(eId, "physics");
+
+        if (!ePos || !ePhys) continue;
 
         const distSqr = this.getDistanceSqr(pPos.x, pPos.y, ePos.x, ePos.y);
         const radiusSum = pPhys.radius + ePhys.radius;
 
         if (distSqr < radiusSum * radiusSum) {
           console.log("nave X enemigo");
-          // TODO: Implement life reduction / game over logic
         }
       }
     }

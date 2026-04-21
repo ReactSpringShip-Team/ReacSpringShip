@@ -25,6 +25,8 @@ export interface RenderComponent {
 
 export interface InputComponent {
   isPlayerControlled: boolean;
+  lastShot: number;
+  shotDelay: number;
 }
 
 export interface ComponentMap {

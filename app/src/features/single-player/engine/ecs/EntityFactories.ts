@@ -37,12 +37,53 @@ export const createPlayer = (
     render.isImageLoaded = true;
   };
 
-  const input: InputComponent = { isPlayerControlled: true };
+  const input: InputComponent = { 
+    isPlayerControlled: true,
+    lastShot: 0,
+    shotDelay: 250 
+  };
 
   entityManager.addComponent(id, "position", pos);
   entityManager.addComponent(id, "physics", physics);
   entityManager.addComponent(id, "render", render);
   entityManager.addComponent(id, "input", input);
+
+  return id;
+};
+
+export const createBullet = (
+  entityManager: EntityManager,
+  x: number,
+  y: number,
+  angle: number,
+  ownerVelocity: { x: number; y: number }
+): EntityId => {
+  const id = entityManager.createEntity();
+  const speed = 10;
+
+  const pos: PositionComponent = { x, y, angle };
+  const physics: PhysicsComponent = {
+    velocity: {
+      x: Math.cos(angle) * speed + ownerVelocity.x,
+      y: Math.sin(angle) * speed + ownerVelocity.y,
+    },
+    friction: 1,
+    thrust: 0,
+    rotationSpeed: 0,
+    radius: 2,
+    mass: 0.1,
+  };
+
+  const render: RenderComponent = {
+    color: "#FF00FF",
+    width: 4,
+    height: 4,
+    isImageLoaded: true,
+  };
+
+  entityManager.addComponent(id, "position", pos);
+  entityManager.addComponent(id, "physics", physics);
+  entityManager.addComponent(id, "render", render);
 
   return id;
 };

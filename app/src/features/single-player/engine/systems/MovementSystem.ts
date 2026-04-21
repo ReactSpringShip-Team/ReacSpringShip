@@ -23,6 +23,7 @@ export class MovementSystem {
       // Screen Border Logic
       const input = entityManager.getComponent(id, "input");
       const isPlayer = input?.isPlayerControlled;
+      const isBullet = !isPlayer && physics.radius <= 5;
 
       if (isPlayer) {
         // Wrap logic for player ship
@@ -33,6 +34,16 @@ export class MovementSystem {
         if (pos.y + physics.radius > canvasHeight) pos.y = physics.radius;
         else if (pos.y - physics.radius < 0)
           pos.y = canvasHeight - physics.radius;
+      } else if (isBullet) {
+        // Remove bullets off-screen
+        if (
+          pos.x + physics.radius > canvasWidth ||
+          pos.x - physics.radius < 0 ||
+          pos.y + physics.radius > canvasHeight ||
+          pos.y - physics.radius < 0
+        ) {
+          entityManager.removeEntity(id);
+        }
       } else {
         // Bounce logic for enemies
         if (pos.x + physics.radius > canvasWidth) {
