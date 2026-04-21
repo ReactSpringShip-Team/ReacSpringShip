@@ -17,6 +17,8 @@ export class GameLoop {
   // ECS Core
   private entityManager: EntityManager;
   private isPaused: boolean = false;
+  private score: number = 0;
+  private survivalTime: number = 0;
 
   // Systems
   private renderSystem: RenderSystem;
@@ -93,6 +95,8 @@ export class GameLoop {
   public restart() {
     this.entityManager = new EntityManager();
     this.levelSystem = new LevelSystem();
+    this.score = 0;
+    this.survivalTime = 0;
     createPlayer(
       this.entityManager, 
       this.canvas.width / 2 - 20, 
@@ -108,7 +112,9 @@ export class GameLoop {
     return {
       lives: health ? health.lives : 0,
       level: this.levelSystem.getLevel(),
-      isGameOver: health ? health.lives <= 0 : false
+      isGameOver: health ? health.lives <= 0 : false,
+      score: this.score,
+      time: Math.floor(this.survivalTime / 1000) // tiempo en segundos
     };
   }
 
@@ -119,13 +125,22 @@ export class GameLoop {
       return;
     }
 
+    this.survivalTime += deltaTime;
+
     // 1. Level & Spawning
+    const levelBefore = this.levelSystem.getLevel();
     this.levelSystem.update(
       this.entityManager, 
       deltaTime, 
       this.canvas.width, 
       this.canvas.height
     );
+    const levelAfter = this.levelSystem.getLevel();
+    
+    // Sumar puntos por subir de nivel
+    if (levelAfter > levelBefore) {
+      this.score += 1000;
+    }
 
     // 2. Handle Input
     this.inputSystem.update(this.entityManager);
@@ -141,7 +156,8 @@ export class GameLoop {
     );
 
     // 5. Handle Collisions
-    this.collisionSystem.update(this.entityManager);
+    const enemiesDestroyed = this.collisionSystem.update(this.entityManager);
+    this.score += (enemiesDestroyed || 0) * 100;
 
     // Notify state change
     if (this.onStateChange) {

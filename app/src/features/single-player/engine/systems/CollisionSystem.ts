@@ -3,7 +3,7 @@ import type { Velocity } from "../../interfaces/Velocity.interface";
 import type { PositionComponent, PhysicsComponent, HealthComponent } from "../components";
 
 export class CollisionSystem {
-  public update(entityManager: EntityManager) {
+  public update(entityManager: EntityManager): number {
     const entities = entityManager.getEntitiesWithComponents(
       "position",
       "physics"
@@ -28,14 +28,15 @@ export class CollisionSystem {
 
     this.handleEnemyEnemyCollisions(enemyIds, entityManager);
     this.handlePlayerEnemyCollisions(playerIds, enemyIds, entityManager);
-    this.handleBulletEnemyCollisions(bulletIds, enemyIds, entityManager);
+    return this.handleBulletEnemyCollisions(bulletIds, enemyIds, entityManager);
   }
 
   private handleBulletEnemyCollisions(
     bulletIds: EntityId[],
     enemyIds: EntityId[],
     entityManager: EntityManager
-  ) {
+  ): number {
+    let destroyedCount = 0;
     for (const bId of bulletIds) {
       const bPos = entityManager.getComponent(bId, "position");
       const bPhys = entityManager.getComponent(bId, "physics");
@@ -53,10 +54,12 @@ export class CollisionSystem {
         if (distSqr < radiusSum * radiusSum) {
           entityManager.removeEntity(eId);
           entityManager.removeEntity(bId);
+          destroyedCount++;
           break; 
         }
       }
     }
+    return destroyedCount;
   }
 
   private handleEnemyEnemyCollisions(

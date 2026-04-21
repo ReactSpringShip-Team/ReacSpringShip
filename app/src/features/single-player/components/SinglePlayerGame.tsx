@@ -19,6 +19,8 @@ export const SinglePlayerGame = () => {
 
   const handleStateChange = useCallback((state: any) => {
     seLives(state.lives);
+    setScore(state.score);
+    setTime(state.time);
     if (state.isGameOver) {
       setGameOver(true);
     }
