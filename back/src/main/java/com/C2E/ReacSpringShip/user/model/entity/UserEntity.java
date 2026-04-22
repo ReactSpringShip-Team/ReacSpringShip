@@ -1,5 +1,6 @@
 package com.C2E.ReacSpringShip.user.model.entity;
 
+import com.C2E.ReacSpringShip.score.model.entity.UserScoreEntity;
 import com.C2E.ReacSpringShip.room.model.entity.RoomEntity;
 import com.C2E.ReacSpringShip.room.model.entity.RoomUserEntity;
 import jakarta.persistence.*;
@@ -39,6 +40,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch =  FetchType.LAZY)
     public List<RoomUserEntity>  roomUsers;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    public List<UserScoreEntity> scores;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -47,14 +51,14 @@ public class UserEntity {
     )
     public Set<RoleEntity> roles = new HashSet<>();
 
-    public UserEntity(UUID id, String username, String password, String email, Boolean enabled, List<RoomEntity> rooms, List<RoomUserEntity> roomUsers, Set<RoleEntity> roles) {
-        this.id = id;
+    public UserEntity(String username, String password, String email, Boolean enabled, List<RoomEntity> rooms, List<RoomUserEntity> roomUsers, List<UserScoreEntity> scores, Set<RoleEntity> roles) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.enabled = enabled;
         this.rooms = rooms;
         this.roomUsers = roomUsers;
+        this.scores = scores;
         this.roles = roles;
     }
 
@@ -135,4 +139,15 @@ public class UserEntity {
         this.roles = roles;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public List<UserScoreEntity> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<UserScoreEntity> scores) {
+        this.scores = scores;
+    }
 }

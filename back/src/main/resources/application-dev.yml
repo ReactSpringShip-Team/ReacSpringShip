@@ -54,6 +54,16 @@ management:
     env:
       enabled: true
 
+features:
+  auth:
+    enabled: true
+  rooms:
+    enabled: false
+  ranking:
+    enabled: false
+  score:
+    enabled: true
+
 cors:
   allowed-origins: http://localhost:5173
   allowed-methods: "*"
