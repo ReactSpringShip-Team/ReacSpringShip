@@ -23,11 +23,12 @@ export const useRegister = () => {
         );
         
         console.log("Registro exitoso:", response);
+        showNotification("Registration successful! Please log in.", "success");
         navigate('/auth', {state: { view: 'login' }});
         
       } catch (error) {
         console.error("Error en el registro:", error);
-        showNotification("Register faild", "error");
+        showNotification("Registration failed", "error");
       }
     }
 

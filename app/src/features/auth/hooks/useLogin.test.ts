@@ -90,7 +90,7 @@ describe('useLogin', () => {
 
     expect(authService.login).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledWith("Error in the login", mockError);
-    expect(mockShowNotification).toHaveBeenCalledWith("Credenciales inválidas", "error");
+    expect(mockShowNotification).toHaveBeenCalledWith("Invalid credentials", "error");
     expect(mockLoginAction).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
 

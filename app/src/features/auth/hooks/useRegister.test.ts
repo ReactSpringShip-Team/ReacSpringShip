@@ -61,6 +61,7 @@ describe('useRegister', () => {
       formData.email,
       formData.password
     );
+    expect(mockShowNotification).toHaveBeenCalledWith("Registration successful! Please log in.", "success");
     expect(mockNavigate).toHaveBeenCalledWith('/auth', { state: { view: 'login' } });
   });
 
@@ -86,7 +87,7 @@ describe('useRegister', () => {
 
     expect(authService.register).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledWith("Error en el registro:", mockError);
-    expect(mockShowNotification).toHaveBeenCalledWith("Registro fallido", "error");
+    expect(mockShowNotification).toHaveBeenCalledWith("Registration failed", "error");
     expect(mockNavigate).not.toHaveBeenCalled();
 
     consoleSpy.mockRestore();
