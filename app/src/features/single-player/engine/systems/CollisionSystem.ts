@@ -1,6 +1,6 @@
 import { EntityManager, type EntityId } from "../ecs/EntityManager";
 import type { Velocity } from "../../interfaces/Velocity.interface";
-import type { PositionComponent, PhysicsComponent, HealthComponent } from "../components";
+import type { PositionComponent, PhysicsComponent } from "../components";
 
 export class CollisionSystem {
   public update(entityManager: EntityManager): number {

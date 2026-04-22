@@ -7,6 +7,8 @@ export class LevelSystem {
   private spawnTimer: number = 0;
   private enemiesToSpawnThisLevel: number = 0;
   private totalEnemiesCreatedInLevel: number = 0;
+  protected initialSpawnCount: number = 0;
+
   
   private readonly TIME_PER_LEVEL = 15000; 
   private readonly BASE_SPAWN_INTERVAL = 3000; 
@@ -45,7 +47,6 @@ export class LevelSystem {
     this.initialSpawnCount = level * 2;
   }
 
-  private initialSpawnCount: number = 0;
 
   private spawnEnemy(entityManager: EntityManager, width: number, height: number) {
     const radius = 30;
