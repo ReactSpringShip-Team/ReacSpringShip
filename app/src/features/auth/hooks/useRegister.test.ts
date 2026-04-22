@@ -3,6 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useRegister } from './useRegister';
 import { authService } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../../shared/context/NotificationContext';
 
 // Mocks
 vi.mock('../services/auth.service', () => ({
@@ -15,12 +16,20 @@ vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),
 }));
 
+vi.mock('../../../shared/context/NotificationContext', () => ({
+  useNotification: vi.fn(),
+}));
+
 describe('useRegister', () => {
   const mockNavigate = vi.fn();
+  const mockShowNotification = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
     (useNavigate as any).mockReturnValue(mockNavigate);
+    (useNotification as any).mockReturnValue({
+        showNotification: mockShowNotification,
+    });
   });
 
   it('should initialize with default form values', () => {
@@ -77,6 +86,7 @@ describe('useRegister', () => {
 
     expect(authService.register).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledWith("Error en el registro:", mockError);
+    expect(mockShowNotification).toHaveBeenCalledWith("Registro fallido", "error");
     expect(mockNavigate).not.toHaveBeenCalled();
 
     consoleSpy.mockRestore();

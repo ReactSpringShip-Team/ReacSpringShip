@@ -4,6 +4,7 @@ import { useLogin } from './useLogin';
 import { authService } from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './useAuth';
+import { useNotification } from '../../../shared/context/NotificationContext';
 
 // Mocks
 vi.mock('../services/auth.service', () => ({
@@ -20,15 +21,23 @@ vi.mock('./useAuth', () => ({
   useAuth: vi.fn(),
 }));
 
+vi.mock('../../../shared/context/NotificationContext', () => ({
+  useNotification: vi.fn(),
+}));
+
 describe('useLogin', () => {
   const mockNavigate = vi.fn();
   const mockLoginAction = vi.fn();
+  const mockShowNotification = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
     (useNavigate as any).mockReturnValue(mockNavigate);
     (useAuth as any).mockReturnValue({
       login: mockLoginAction,
+    });
+    (useNotification as any).mockReturnValue({
+      showNotification: mockShowNotification,
     });
   });
 
@@ -81,6 +90,7 @@ describe('useLogin', () => {
 
     expect(authService.login).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledWith("Error in the login", mockError);
+    expect(mockShowNotification).toHaveBeenCalledWith("Credenciales inválidas", "error");
     expect(mockLoginAction).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
 
