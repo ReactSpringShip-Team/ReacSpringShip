@@ -20,7 +20,7 @@ public record UserRequest(
         @Size(max = 100, message = "The email cannot exceed 100 characters.")
         String email,
 
-        @Schema(description = "a secret password", example = "ReacSpringShip")
+        @Schema(description = "a secret password", example = "ReacSpringShip-123")
         @NotBlank(message = "A password is required.")
         @Size(min = 8, max = 64, message = "The password must be between 8 and 64 characters long")
         @Pattern(
