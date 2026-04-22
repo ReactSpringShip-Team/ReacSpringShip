@@ -27,15 +27,10 @@ spring:
 
     open-in-view: false
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          secret-key: ${JWT_SECRET}
-
 jwt:
   expiration: 86400000
   issuer: ${APP_BASE_URL}
+  secret-key: ${JWT_SECRET}
 
 springdoc:
   api-docs:
@@ -57,13 +52,13 @@ management:
 
 features:
   auth:
-    enabled: true
+    enabled: ${FEATURE_AUTH}
   rooms:
-    enabled: false
+    enabled: ${FEATURE_ROOMS}
   ranking:
-    enabled: false
+    enabled: ${FEATURE_RANKING}
   score:
-    enabled: true
+    enabled: ${FEATURE_SCORE}
 
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS}

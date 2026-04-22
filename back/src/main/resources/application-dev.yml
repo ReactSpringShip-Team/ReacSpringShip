@@ -25,15 +25,10 @@ spring:
 
     open-in-view: false
 
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          secret-key: "password-example-123456789-new-encoded-256-bits"
-
 jwt:
   expiration: 86400000
   issuer: "http://localhost:8080"
+  secret-key: "password-example-123456789-new-encoded-256-bits"
 
 springdoc:
   api-docs:
