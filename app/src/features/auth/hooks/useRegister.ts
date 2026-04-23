@@ -31,9 +31,14 @@ export const useRegister = () => {
         let errorMessage = "Registration failed";
 
         if (axios.isAxiosError(error) && error.response) {
-            // Check for different possible error structures from the server
             const serverData = error.response.data;
-            errorMessage = serverData.message || serverData.error || serverData.detail || errorMessage;
+            
+            // Prioritize validationErrors if they exist, then message, then error
+            if (serverData.validationErrors && typeof serverData.validationErrors === 'object') {
+                errorMessage = Object.values(serverData.validationErrors).join(", ");
+            } else {
+                errorMessage = serverData.message || serverData.error || errorMessage;
+            }
         }
 
         console.error("Error en el registro:", error);

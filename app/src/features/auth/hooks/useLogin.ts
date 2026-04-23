@@ -28,7 +28,12 @@ export const useLogin = () => {
 
         if (axios.isAxiosError(error) && error.response) {
             const serverData = error.response.data;
-            errorMessage = serverData.message || serverData.error || serverData.detail || errorMessage;
+            
+            if (serverData.validationErrors && typeof serverData.validationErrors === 'object') {
+                errorMessage = Object.values(serverData.validationErrors).join(", ");
+            } else {
+                errorMessage = serverData.message || serverData.error || errorMessage;
+            }
         }
 
         console.log("Error in the login", error);
