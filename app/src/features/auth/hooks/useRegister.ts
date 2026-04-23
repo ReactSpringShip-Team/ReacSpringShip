@@ -2,6 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 import { authService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../../shared/context/NotificationContext";
+import axios from "axios";
 
 type RegisterFields = {
     username: string;
@@ -27,8 +28,16 @@ export const useRegister = () => {
         navigate('/auth', {state: { view: 'login' }});
         
       } catch (error) {
+        let errorMessage = "Registration failed";
+
+        if (axios.isAxiosError(error) && error.response) {
+            // Check for different possible error structures from the server
+            const serverData = error.response.data;
+            errorMessage = serverData.message || serverData.error || serverData.detail || errorMessage;
+        }
+
         console.error("Error en el registro:", error);
-        showNotification("Registration failed", "error");
+        showNotification(errorMessage, "error");
       }
     }
 
