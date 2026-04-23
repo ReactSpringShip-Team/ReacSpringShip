@@ -22,7 +22,7 @@ import java.util.UUID;
 @Configuration
 public class JwtConfig {
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.secret-key}")
+    @Value("${jwt.secret-key}")
     private String jwtSecret;
 
     @Bean
