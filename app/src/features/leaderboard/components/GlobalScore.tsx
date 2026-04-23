@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ScoreRow } from "./ScoreRow"
 import { leaderboardService } from "../services/leadearboard.service";
 import type { ScoreResponse } from "../types/leaderboard.types";
-import { formatDate, formatTime } from "../../../shared/utils/format";
+import { formatTime } from "../../../shared/utils/format";
 import { LoadingScreen } from "../../../shared/components/LoadingScreen";
 import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 
