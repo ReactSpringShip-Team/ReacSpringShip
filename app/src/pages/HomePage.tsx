@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { Settings } from "lucide-react"
 import { Button } from "../shared";
 import { useAuth } from "../features/auth";
+import { MusicPlayer } from "../features/config/components/MusicPlayer";
 
 export const HomePage = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -40,8 +41,8 @@ export const HomePage = () => {
 
       <main className="flex flex-col flex-1 justify-center items-center gap-16">
         
-        <h1 className="text-6xl md:text-8xl font-black italic text-cyan-400 drop-shadow-[0_0_20px_#22d3ee] tracking-widest text-center select-none">
-          ReactShip
+        <h1 className="text-5xl md:text-8xl font-black italic text-cyan-400 drop-shadow-[0_0_20px_#22d3ee] tracking-widest text-center select-none">
+          ReactSpringShip
         </h1>
 
         <div className="flex flex-col items-center gap-6 w-full max-w-xs">
@@ -73,6 +74,7 @@ export const HomePage = () => {
         </div>
       </footer>
       
+      <MusicPlayer />
     </div>
   )
 }

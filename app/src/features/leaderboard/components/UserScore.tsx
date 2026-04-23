@@ -1,12 +1,37 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth"
 import { ScoreRow } from "./ScoreRow"
 import { Button } from "../../../shared/components/Button";
 import { Lock } from "lucide-react";
+import { leaderboardService } from "../services/leadearboard.service";
+import type { UserScoreResponse } from "../types/leaderboard.types";
+import { formatDate, formatTime } from "../../../shared/utils/format";
+import { LoadingScreen } from "../../../shared/components/LoadingScreen";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 
 export const UserScore = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [scores, setScores] = useState<UserScoreResponse[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLoading(true);
+      leaderboardService.getMyScores()
+        .then(data => {
+          setScores(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error fetching user scores:", err);
+          setError("Failed to load your scores");
+          setLoading(false);
+        });
+    }
+  }, [isAuthenticated]);
 
   if (!isAuthenticated) {
     return (
@@ -33,14 +58,24 @@ export const UserScore = () => {
     )
   }
 
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorMessage message={error} />;
+
   return (
     <div className="flex flex-col gap-3 w-full max-w-2xl mx-auto italic">
-      {/* Mock data */}
-      <ScoreRow rank={1} username="PlayerOne" score={500} time="30s" date="16 Mar 2026" />
-      <ScoreRow rank={2} username="Death_cb" score={400} time="40s" date="18 Mar 2026" />
-      <ScoreRow rank={3} username="Silent" score={350} time="45s" date="18 Mar 2026" />
-      <ScoreRow rank={4} username="Noob" score={120} time="60s" date="19 Mar 2026" />
-      <ScoreRow rank={5} username="Guest" score={90} time="75s" date="19 Mar 2026" />
+      {scores.map((score, index) => (
+        <ScoreRow 
+          key={index}
+          rank={index + 1}
+          username="YOU" // Or get from auth if available
+          score={score.score}
+          time={formatTime(score.timeSecs)}
+          date={formatDate(score.playedAt)}
+        />
+      ))}
+      {scores.length === 0 && (
+        <p className="text-center text-gray-400 py-8">You haven't recorded any scores yet.</p>
+      )}
     </div>
   )
 }

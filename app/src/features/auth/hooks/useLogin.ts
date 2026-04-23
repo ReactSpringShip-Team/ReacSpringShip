@@ -3,6 +3,7 @@ import { authService } from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./useAuth";
 import { useNotification } from "../../../shared/context/NotificationContext";
+import axios from "axios";
 
 interface LoginFields {
     username: string;
@@ -23,8 +24,20 @@ export const useLogin = () => {
         login(response.token); 
         navigate('/home');
     }catch(error){
+        let errorMessage = "Invalid credentials";
+
+        if (axios.isAxiosError(error) && error.response) {
+            const serverData = error.response.data;
+            
+            if (serverData.validationErrors && typeof serverData.validationErrors === 'object') {
+                errorMessage = Object.values(serverData.validationErrors).join(", ");
+            } else {
+                errorMessage = serverData.message || serverData.error || errorMessage;
+            }
+        }
+
         console.log("Error in the login", error);
-        showNotification("Invalid credentials", "error");
+        showNotification(errorMessage, "error");
     }
 
     }

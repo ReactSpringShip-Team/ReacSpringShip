@@ -39,10 +39,19 @@ export const RegisterForm = ({ setView }: Props) => {
 
         {/* Password */}
         <div className="w-full max-w-sm flex flex-col items-start">
-          <Input type="password" color={errors.password ? "red" : "pink"} placeholder="Password" {...register("password", {
-            required: "Password is required",
-            minLength: { value: 5, message: 'At least 5 characters' }
-          })}/>
+          <Input 
+            type="password" 
+            color={errors.password ? "red" : "pink"} 
+            placeholder="Password" 
+            {...register("password", {
+              required: "Password is required",
+              minLength: { value: 8, message: 'Minimum 8 characters' },
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message: "Must include: uppercase, lowercase, number and special character (@$!%*?&)"
+              }
+            })}
+          />
           <ErrorMessage message={errors.password?.message} />
         </div>
 

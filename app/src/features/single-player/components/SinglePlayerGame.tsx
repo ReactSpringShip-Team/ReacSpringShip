@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type RefObject } from "react";
+import { useState, useEffect, useCallback, type RefObject, useRef } from "react";
 import { createPortal } from "react-dom";
 
 import { HUD } from "./HUD";
@@ -7,6 +7,8 @@ import { PauseMenu } from "./PauseMenu";
 import { GameOverScreen } from "./GameOverScreen";
 import { useGameLoop } from "../hooks/useGameLoop";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/hooks/useAuth";
+import { scoreService } from "../services/score.service";
 
 export const SinglePlayerGame = () => {
   const [lives, seLives] = useState<number>(3);
@@ -14,7 +16,9 @@ export const SinglePlayerGame = () => {
   const [score, setScore] = useState<number>(0);
   const [showPauseMenu, setShowPauseMenu] = useState(false);
   const [showGameOver, setGameOver] = useState(false);
+  const hasSubmittedScore = useRef(false);
 
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleStateChange = useCallback((state: any) => {
@@ -27,6 +31,15 @@ export const SinglePlayerGame = () => {
   }, []);
 
   const { canvasRef, pause, resume, restart } = useGameLoop(handleStateChange);
+
+  useEffect(() => {
+    if (showGameOver && isAuthenticated && !hasSubmittedScore.current) {
+      hasSubmittedScore.current = true;
+      scoreService.sendScore(score, time).catch((error) => {
+        console.error("Error sending score:", error);
+      });
+    }
+  }, [showGameOver, isAuthenticated, score, time]);
 
   const handlePause = useCallback(() => {
     if (!showGameOver) {
@@ -45,6 +58,7 @@ export const SinglePlayerGame = () => {
     seLives(3);
     setScore(0);
     setTime(0);
+    hasSubmittedScore.current = false;
     restart();
   }, [restart]);
 
