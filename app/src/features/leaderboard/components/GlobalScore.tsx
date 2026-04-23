@@ -1,13 +1,47 @@
+import { useEffect, useState } from "react";
 import { ScoreRow } from "./ScoreRow"
+import { leaderboardService } from "../services/leadearboard.service";
+import type { ScoreResponse } from "../types/leaderboard.types";
+import { formatDate, formatTime } from "../../../shared/utils/format";
+import { LoadingScreen } from "../../../shared/components/LoadingScreen";
+import { ErrorMessage } from "../../../shared/components/ErrorMessage";
 
 export const GlobalScore = () => {
+  const [scores, setScores] = useState<ScoreResponse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    leaderboardService.getAllScores()
+      .then(data => {
+        setScores(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching global scores:", err);
+        setError("Failed to load global scores");
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorMessage message={error} />;
+
   return (
     <div className="flex flex-col gap-3 w-full max-w-2xl mx-auto italic">
-      {/* Mock data */}
-      <ScoreRow rank={1} username="TheOne" score={500} time="30s" date="16 Mar 2026" />
-      <ScoreRow rank={2} username="Second" score={400} time="40s" date="18 Mar 2026" />
-      <ScoreRow rank={3} username="Nine" score={350} time="45s" date="18 Mar 2026" />
+      {scores.map((score, index) => (
+        <ScoreRow 
+          key={index}
+          rank={index + 1}
+          username={score.username}
+          score={score.score}
+          time={formatTime(score.timeSecs)}
+          date={formatDate(score.playedAt)}
+        />
+      ))}
+      {scores.length === 0 && (
+        <p className="text-center text-gray-400 py-8">No scores recorded yet.</p>
+      )}
     </div>
-
   )
 }
