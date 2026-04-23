@@ -4,9 +4,6 @@ import type { viewTab } from "../features/multi-player/types/view.type";
 import { Lobby, MultiplayerCanvas, MultiplayerMenu } from "../features/multi-player";
 import { BackButton } from "../shared";
 
-
-
-
 export const MultiPlayerPage = () => {
 
   const [view, setView] = useState<viewTab>('menu');

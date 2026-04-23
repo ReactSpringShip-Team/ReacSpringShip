@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { Settings } from "lucide-react"
 import { Button } from "../shared";
 import { useAuth } from "../features/auth";
+import { MusicPlayer } from "../features/config/components/MusicPlayer";
 
 export const HomePage = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -74,6 +75,7 @@ export const HomePage = () => {
         </div>
       </footer>
       
+      <MusicPlayer />
     </div>
   )
 }
