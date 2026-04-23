@@ -34,9 +34,9 @@ export const GlobalScore = () => {
           key={index}
           rank={index + 1}
           username={score.username}
-          score={score.score}
-          time={formatTime(score.timeSecs)}
-          date={formatDate(score.playedAt)}
+          score={score.bestScore}
+          time={formatTime(score.bestTime)}
+          date="" // The global leaderboard doesn't return a specific date for the 'best' score record
         />
       ))}
       {scores.length === 0 && (

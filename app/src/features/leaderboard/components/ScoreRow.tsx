@@ -18,7 +18,7 @@ export const ScoreRow = ({rank, username, score, time, date} : Props) => {
         <div className="flex gap-8 items-center">
           <p className="font-bold text-2xl text-white">{score} pts</p>
           <p className="font-mono text-slate-300/70 text-sm">{time}</p>
-          <p className="font-mono text-[12px] capitalize text-slate-400">{date}</p>
+          {date && <p className="font-mono text-[12px] capitalize text-slate-400">{date}</p>}
         </div>
       </div>
   )
